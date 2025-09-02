@@ -31,7 +31,9 @@ public class ModBlocks {
 
     public static final Block OTOWER_TNT = registerBlock("otower_tnt",
             new OTowerTNT(Block.Settings.copy(Blocks.TNT)));
-    
+
+    public static final Block BREACH_TNT = registerBlock("breach_tnt",
+            new BreachTNT(Block.Settings.copy(Blocks.TNT)));
 
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);

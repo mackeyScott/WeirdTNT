@@ -79,6 +79,16 @@ public class ModEntities {
                     .build()
     );
 
+    public static final EntityType<BreachTntEntity> BREACH_ENTITY = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(WeirdTNT.MOD_ID, "breach_entity"),
+            FabricEntityTypeBuilder.<BreachTntEntity>create(SpawnGroup.MISC, BreachTntEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+                    .trackRangeBlocks(10)
+                    .trackedUpdateRate(10)
+                    .build()
+    );
+
 
     public static void registerModEntities() {
         WeirdTNT.LOGGER.info("Registering Mod Entities for " + WeirdTNT.MOD_ID);
