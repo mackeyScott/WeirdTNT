@@ -7,6 +7,7 @@
   "block.weirdtnt.bnt": "BNT",
   "block.weirdtnt.otower_tnt": "Obsidian Chunk TNT",
   "block.weirdtnt.breach_tnt": "Breach TNT",
-  "block.weirdtnt.gravity_tnt": "Gravity TNT",
+  "block.weirdtnt.gravity_tnt": "GraviTNT",
+  "block.weirdtnt.rainbow_tnt": "Rainbow TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

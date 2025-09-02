@@ -57,6 +57,14 @@ public class GravityTntEntity extends TntEntity {
                         false, // show particles
                         false  // show icon
                 ));
+                //Apply Slow Falling
+                living.addStatusEffect(new StatusEffectInstance(
+                        StatusEffects.SLOW_FALLING,
+                        300,
+                        20,
+                        false, // show particles
+                        false  // show icon
+                ));
             }
         }
 
