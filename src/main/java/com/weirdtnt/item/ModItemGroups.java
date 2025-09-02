@@ -23,6 +23,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.BNT);
                 entries.add(ModBlocks.OTOWER_TNT);
                 entries.add(ModBlocks.BREACH_TNT);
+                entries.add(ModBlocks.GRAVITY_TNT);
             }).build());
 
     public static void registerItemGroups(){
