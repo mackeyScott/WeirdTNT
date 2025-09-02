@@ -1,8 +1,9 @@
 package com.weirdtnt.blocks;
-import com.weirdtnt.entities.WaterTntEntity;
+
+import com.weirdtnt.entities.BntEntity;
+import com.weirdtnt.entities.LavaTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.TntBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -14,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class WaterTNT extends Block {
-    public WaterTNT(Settings settings) {
+public class BNT extends Block {
+    public BNT(Settings settings) {
         super(settings);
     }
 
@@ -38,7 +39,7 @@ public class WaterTNT extends Block {
 
     private void ignite(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            WaterTntEntity entity = new WaterTntEntity(world,
+            BntEntity entity = new BntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),
                     pos.getZ() + 0.5,

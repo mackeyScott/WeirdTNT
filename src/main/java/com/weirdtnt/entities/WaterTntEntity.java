@@ -24,9 +24,9 @@ public class WaterTntEntity extends TntEntity {
     public void tick() {
         super.tick();
 
-        if (!this.getWorld().isClient && this.getFuse() == 1) { // just before explosion
+        if (!this.getWorld().isClient && this.getFuse() == 1) {
             explodeWater();
-            this.remove(RemovalReason.DISCARDED); // remove TNT manually
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 

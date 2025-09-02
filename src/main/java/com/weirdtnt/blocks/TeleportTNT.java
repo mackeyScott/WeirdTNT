@@ -39,7 +39,6 @@ public class TeleportTNT extends Block {
 
     private void ignite(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            // Instead of TNT entity, spawn your LavaTntEntity
             TeleportTntEntity entity = new TeleportTntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),

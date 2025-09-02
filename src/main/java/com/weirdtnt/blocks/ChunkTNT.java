@@ -38,7 +38,6 @@ public class ChunkTNT extends Block {
 
     private void ignite(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            // Instead of TNT entity, spawn your ChunkTntEntity
             ChunkTntEntity entity = new ChunkTntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),

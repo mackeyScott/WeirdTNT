@@ -38,7 +38,6 @@ public class LavaTNT extends Block {
 
     private void ignite(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            // Instead of TNT entity, spawn your LavaTntEntity
             LavaTntEntity entity = new LavaTntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),

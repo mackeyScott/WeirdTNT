@@ -4,5 +4,6 @@
   "block.weirdtnt.lava_tnt": "Lava TNT",
   "block.weirdtnt.tele_tnt": "Teleporting TNT",
   "block.weirdtnt.chunk_tnt": "Chunk TNT",
+  "block.weirdtnt.bnt": "BNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

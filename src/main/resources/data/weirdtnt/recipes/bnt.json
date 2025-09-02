@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    " W ",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "W": {
+      "item": "minecraft:empty_bucket"
+    }
+  },
+  "result": {
+    "item": "weirdtnt:bnt",
+    "count": 2
+  }
+}

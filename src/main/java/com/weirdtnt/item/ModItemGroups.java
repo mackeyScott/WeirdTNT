@@ -13,13 +13,14 @@ import net.minecraft.util.Identifier;
 public class ModItemGroups {
     public static final ItemGroup WT_GROUP = Registry.register(Registries.ITEM_GROUP,
             new Identifier(WeirdTNT.MOD_ID, "igwtnt"),
-            FabricItemGroup.builder().displayName(Text.translatable("itemgroup.logo")).icon(()
+            FabricItemGroup.builder().displayName(Text.translatable("Weird TNT")).icon(()
                     -> new ItemStack(ModItems.logo)).entries((displayContext, entries) -> {
                 //entries.add(ModItems.jay);
                 entries.add(ModBlocks.WATER_TNT);
                 entries.add(ModBlocks.LAVA_TNT);
                 entries.add(ModBlocks.TELE_TNT);
                 entries.add(ModBlocks.CHUNK_TNT);
+                entries.add(ModBlocks.BNT);
             }).build());
 
     public static void registerItemGroups(){
