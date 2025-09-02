@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    " W ",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "W": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "weirdtnt:tele_tnt",
+    "count": 2
+  }
+}

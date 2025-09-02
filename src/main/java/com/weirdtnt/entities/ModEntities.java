@@ -39,6 +39,17 @@ public class ModEntities {
                     .build()
     );
 
+    public static final EntityType<TeleportTntEntity> TELE_TNT_ENTITY = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(WeirdTNT.MOD_ID, "tele_tnt_entity"),
+            FabricEntityTypeBuilder.<TeleportTntEntity>create(SpawnGroup.MISC, TeleportTntEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+                    .trackRangeBlocks(10)
+                    .trackedUpdateRate(10)
+                    .build()
+    );
+
+
 
 
     public static void registerModEntities() {

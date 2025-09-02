@@ -2,5 +2,6 @@
   "item.weirdtnt.logo": "Logo",
   "block.weirdtnt.water_tnt": "Water TNT",
   "block.weirdtnt.lava_tnt": "Lava TNT",
+  "block.weirdtnt.tele_tnt": "Teleporting TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

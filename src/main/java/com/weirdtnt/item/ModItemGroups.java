@@ -18,6 +18,7 @@ public class ModItemGroups {
                 //entries.add(ModItems.jay);
                 entries.add(ModBlocks.WATER_TNT);
                 entries.add(ModBlocks.LAVA_TNT);
+                entries.add(ModBlocks.TELE_TNT);
             }).build());
 
     public static void registerItemGroups(){
