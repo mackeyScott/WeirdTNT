@@ -4,6 +4,7 @@ import com.weirdtnt.entities.BntEntity;
 import com.weirdtnt.entities.LavaTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.TntBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -15,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class BNT extends Block {
+public class BNT extends TntBlock {
     public BNT(Settings settings) {
         super(settings);
     }

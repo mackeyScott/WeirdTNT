@@ -4,6 +4,7 @@ import com.weirdtnt.entities.LavaTntEntity;
 import com.weirdtnt.entities.TeleportTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.TntBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -15,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class TeleportTNT extends Block {
+public class TeleportTNT extends TntBlock {
     public TeleportTNT(Settings settings) {
         super(settings);
     }

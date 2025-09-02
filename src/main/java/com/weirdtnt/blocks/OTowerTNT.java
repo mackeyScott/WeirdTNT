@@ -1,6 +1,6 @@
 package com.weirdtnt.blocks;
 
-import com.weirdtnt.entities.LavaTntEntity;
+import com.weirdtnt.entities.OTowerTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TntBlock;
@@ -15,8 +15,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class LavaTNT extends TntBlock {
-    public LavaTNT(Settings settings) {
+public class OTowerTNT extends TntBlock {
+    public OTowerTNT(Settings settings) {
         super(settings);
     }
 
@@ -39,7 +39,7 @@ public class LavaTNT extends TntBlock {
 
     private void ignite(World world, BlockPos pos, @Nullable LivingEntity igniter) {
         if (!world.isClient) {
-            LavaTntEntity entity = new LavaTntEntity(world,
+            OTowerTntEntity entity = new OTowerTntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),
                     pos.getZ() + 0.5,

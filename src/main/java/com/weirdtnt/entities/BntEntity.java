@@ -1,5 +1,8 @@
 package com.weirdtnt.entities;
 
+import com.weirdtnt.blocks.BNT;
+import net.minecraft.block.Block;
+import net.minecraft.block.TntBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
@@ -17,7 +20,8 @@ public class BntEntity extends TntEntity {
 
     public BntEntity(World world, double x, double y, double z, LivingEntity igniter) {
         super(world, x, y, z, igniter);
-        this.setFuse(80); // optional fuse
+        this.setFuse(80);
+
     }
 
     @Override
@@ -41,6 +45,7 @@ public class BntEntity extends TntEntity {
 
         this.age++;
     }
+
 
     private void spawnBees() {
         World world = this.getWorld();

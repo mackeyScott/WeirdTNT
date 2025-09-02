@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class WaterTNT extends Block {
+public class WaterTNT extends TntBlock {
     public WaterTNT(Settings settings) {
         super(settings);
     }

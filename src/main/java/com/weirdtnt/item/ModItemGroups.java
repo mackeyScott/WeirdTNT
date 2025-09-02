@@ -21,6 +21,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.TELE_TNT);
                 entries.add(ModBlocks.CHUNK_TNT);
                 entries.add(ModBlocks.BNT);
+                entries.add(ModBlocks.OTOWER_TNT);
             }).build());
 
     public static void registerItemGroups(){

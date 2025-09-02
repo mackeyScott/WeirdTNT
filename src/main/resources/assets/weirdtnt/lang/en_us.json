@@ -5,5 +5,6 @@
   "block.weirdtnt.tele_tnt": "Teleporting TNT",
   "block.weirdtnt.chunk_tnt": "Chunk TNT",
   "block.weirdtnt.bnt": "BNT",
+  "block.weirdtnt.otower_tnt": "Obsidian Chunk TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

@@ -3,6 +3,7 @@ package com.weirdtnt.blocks;
 import com.weirdtnt.entities.ChunkTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.TntBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -14,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class ChunkTNT extends Block {
+public class ChunkTNT extends TntBlock {
     public ChunkTNT(Settings settings) {
         super(settings);
     }
