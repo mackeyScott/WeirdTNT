@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "weirdtnt",
+	"version": "${version}",
+	"name": "WeirdTNT",
+	"description": "Looking for explosions with a twist? This mod adds a collection of strange, chaotic, and hilarious TNT variants that go far beyond vanilla Minecraft. Perfect for experiments, trolling friends, or just seeing what kind of madness you can unleash!",
+	"authors": [
+		"Electroinca"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/weirdtnt/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.weirdtnt.WeirdTNT"
+		],
+		"fabric-datagen": [
+			"com.weirdtnt.WeirdTNTDataGenerator"
+		]
+	},
+	"mixins": [
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
