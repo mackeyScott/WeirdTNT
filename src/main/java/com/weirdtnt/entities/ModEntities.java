@@ -49,7 +49,15 @@ public class ModEntities {
                     .build()
     );
 
-
+    public static final EntityType<ChunkTntEntity> CHUNK_TNT_ENTITY = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(WeirdTNT.MOD_ID, "chunk_tnt_entity"),
+            FabricEntityTypeBuilder.<ChunkTntEntity>create(SpawnGroup.MISC, ChunkTntEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+                    .trackRangeBlocks(10)
+                    .trackedUpdateRate(10)
+                    .build()
+    );
 
 
     public static void registerModEntities() {

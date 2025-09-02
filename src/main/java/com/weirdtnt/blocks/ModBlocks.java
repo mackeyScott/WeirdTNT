@@ -23,6 +23,9 @@ public class ModBlocks {
     public static final Block TELE_TNT = registerBlock("tele_tnt",
             new TeleportTNT(Block.Settings.copy(Blocks.TNT)));
 
+    public static final Block CHUNK_TNT = registerBlock("chunk_tnt",
+            new ChunkTNT(Block.Settings.copy(Blocks.TNT)));
+
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
         return Registry.register(Registries.BLOCK, new Identifier(WeirdTNT.MOD_ID, name), block);
