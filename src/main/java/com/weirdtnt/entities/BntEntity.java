@@ -7,6 +7,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -51,6 +53,10 @@ public class BntEntity extends TntEntity {
         World world = this.getWorld();
         BlockPos center = this.getBlockPos();
 
+        world.playSound(null, center,
+                SoundEvents.ENTITY_GENERIC_EXPLODE,
+                SoundCategory.BLOCKS,
+                4.0F, 1.0F);
         int beeCount = 25;
         for (int i = 0; i < beeCount; i++) {
             BeeEntity bee = EntityType.BEE.create(world);

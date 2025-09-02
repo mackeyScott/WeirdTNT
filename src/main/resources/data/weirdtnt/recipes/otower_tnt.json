@@ -1,17 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "# #",
-    " W ",
-    "# #"
+    "#G#",
+    "G G",
+    "#G#"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:sand"
-    },
-    "W": {
-      "item": "minecraft:obsidian"
-    }
+    "#": "minecraft:obsidian",
+    "G": "minecraft:gunpowder"
   },
   "result": {
     "item": "weirdtnt:bnt",

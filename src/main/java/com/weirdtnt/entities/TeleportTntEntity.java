@@ -37,6 +37,10 @@ public class TeleportTntEntity extends TntEntity {
 
             if (fuse <= 0) {
                 explode();
+                getWorld().playSound(null, this.getBlockPos(),
+                        SoundEvents.ENTITY_GENERIC_EXPLODE,
+                        SoundCategory.BLOCKS,
+                        4.0F, 1.0F);
                 this.discard();
 
                 return;

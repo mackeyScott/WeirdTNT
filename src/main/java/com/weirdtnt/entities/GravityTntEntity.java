@@ -8,6 +8,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.random.Random;
@@ -40,6 +42,11 @@ public class GravityTntEntity extends TntEntity {
     private void applyLevitation() {
         double radius = 6.0;
         BlockPos origin = this.getBlockPos();
+
+        getWorld().playSound(null, origin,
+                SoundEvents.ENTITY_GENERIC_EXPLODE,
+                SoundCategory.BLOCKS,
+                4.0F, 1.0F);
 
         // Get all entities in radius
         List<Entity> entities = getWorld().getOtherEntities(null, new Box(

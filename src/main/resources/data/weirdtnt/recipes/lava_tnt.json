@@ -1,17 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "# #",
-    " W ",
-    "# #"
+    "#G#",
+    "GLG",
+    "#G#"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:sand"
-    },
-    "W": {
-      "item": "minecraft:lava_bucket"
-    }
+    "#": "minecraft:sand",
+    "G": "minecraft:gunpowder",
+    "L": "minecraft:lava_bucket"
   },
   "result": {
     "item": "weirdtnt:lava_tnt",

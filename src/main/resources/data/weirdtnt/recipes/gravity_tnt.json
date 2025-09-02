@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "GFG",
+    "#G#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "F": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "weirdtnt:gravity_tnt",
+    "count": 2
+  }
+}

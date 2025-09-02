@@ -32,6 +32,10 @@ public class OTowerTntEntity extends TntEntity {
         if (!this.getWorld().isClient) {
             if (fuse <= 0) {
                 nukeChunk();
+                getWorld().playSound(null, this.getBlockPos(),
+                        SoundEvents.ENTITY_GENERIC_EXPLODE,
+                        SoundCategory.BLOCKS,
+                        4.0F, 1.0F);
                 this.discard();
                 return;
             }

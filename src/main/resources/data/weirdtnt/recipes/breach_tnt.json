@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "#G#",
-    "GHG",
+    "GPG",
     "#G#"
   ],
   "key": {
     "#": "minecraft:sand",
     "G": "minecraft:gunpowder",
-    "H": "minecraft:honeycomb"
+    "P": "minecraft:pointed_dripstone"
   },
   "result": {
-    "item": "weirdtnt:bnt",
+    "item": "weirdtnt:breach_tnt",
     "count": 2
   }
 }

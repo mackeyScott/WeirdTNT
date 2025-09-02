@@ -55,6 +55,10 @@ public class BreachTntEntity extends TntEntity {
 
             if (fuse <= 0) {
                 this.getWorld().createExplosion(this, getX(), getY(), getZ(), 4.0f, World.ExplosionSourceType.TNT);
+                getWorld().playSound(null, this.getBlockPos(),
+                        SoundEvents.ENTITY_GENERIC_EXPLODE,
+                        SoundCategory.BLOCKS,
+                        4.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);
                 return;
             }

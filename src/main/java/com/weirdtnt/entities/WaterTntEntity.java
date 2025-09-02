@@ -26,6 +26,10 @@ public class WaterTntEntity extends TntEntity {
 
         if (!this.getWorld().isClient && this.getFuse() == 1) {
             explodeWater();
+            getWorld().playSound(null, this.getBlockPos(),
+                    SoundEvents.ENTITY_GENERIC_EXPLODE,
+                    SoundCategory.BLOCKS,
+                    4.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
         }
     }

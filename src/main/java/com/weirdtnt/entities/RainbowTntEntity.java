@@ -8,6 +8,8 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -34,6 +36,10 @@ public class RainbowTntEntity extends TntEntity {
 
         if (!getWorld().isClient && this.getFuse() <= 1) {
             explodeRainbow();
+            getWorld().playSound(null, this.getBlockPos(),
+                    SoundEvents.ENTITY_GENERIC_EXPLODE,
+                    SoundCategory.BLOCKS,
+                    4.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
         }
     }

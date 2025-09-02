@@ -1,17 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "# #",
-    " W ",
-    "# #"
+    "#G#",
+    "GWG",
+    "#G#"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:sand"
-    },
-    "W": {
-      "item": "minecraft:water_bucket"
-    }
+    "#": "minecraft:sand",
+    "G": "minecraft:gunpowder",
+    "W": "minecraft:water_bucket"
   },
   "result": {
     "item": "weirdtnt:water_tnt",
