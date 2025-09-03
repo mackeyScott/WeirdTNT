@@ -42,16 +42,22 @@ public class ClusterTntEntity extends TntEntity {
             for (int dy = -radius; dy <= radius; dy++) {
                 for (int dz = -radius; dz <= radius; dz++) {
                     BlockPos target = center.add(dx, dy, dz);
+                    int distance = target.getManhattanDistance(center);
 
-                    if (target.getManhattanDistance(center) <= radius) {
-                        // Spawn primed TNT entity instead of placing TNT block
+                    if (distance <= radius) {
+                        // Create primed TNT
                         TntEntity tnt = new TntEntity(
                                 this.getWorld(),
-                                target.getX() + 0.5, // center it in the block
+                                target.getX() + 0.5,
                                 target.getY(),
                                 target.getZ() + 0.5,
-                                null // you can pass an igniter entity here if you want
+                                null
                         );
+
+                        // Fuse logic: closer TNT explodes sooner
+                        // Base fuse = 40 ticks (2s), add 10 ticks per distance unit
+                        int fuse = 40 + (distance * 10);
+                        tnt.setFuse(fuse);
 
                         this.getWorld().spawnEntity(tnt);
                     }
@@ -59,7 +65,7 @@ public class ClusterTntEntity extends TntEntity {
             }
         }
 
-        // Play explosion sound at center (optional, since TNT will also make sounds)
+        // Play initial explosion sound at the center
         this.getWorld().playSound(
                 null,
                 center,
@@ -69,4 +75,5 @@ public class ClusterTntEntity extends TntEntity {
                 1.0F
         );
     }
+
 }
