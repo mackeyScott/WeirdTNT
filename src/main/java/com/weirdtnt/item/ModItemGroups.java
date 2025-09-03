@@ -27,6 +27,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.RAINBOW_TNT);
                 entries.add(ModBlocks.CLUSTER_TNT);
                 entries.add(ModBlocks.RESTORE_TNT);
+                entries.add(ModBlocks.BOOK_TNT);
             }).build());
 
     public static void registerItemGroups(){

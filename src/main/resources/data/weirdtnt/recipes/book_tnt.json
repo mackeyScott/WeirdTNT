@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "GGG",
+    "#G#"
+  ],
+  "key": {
+    "#": "minecraft:sand",
+    "G": "minecraft:gunpowder",
+  },
+  "result": {
+    "item": "weirdtnt:book_tnt",
+    "count": 2
+  }
+}

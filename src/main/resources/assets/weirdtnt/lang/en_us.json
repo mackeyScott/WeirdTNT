@@ -11,5 +11,6 @@
   "block.weirdtnt.rainbow_tnt": "Rainbow TNT",
   "block.weirdtnt.cluster_tnt": "Cluster TNT",
   "block.weirdtnt.restore_tnt": "Restore TNT",
+  "block.weirdtnt.book_tnt": "Book TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }
