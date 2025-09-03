@@ -50,6 +50,9 @@ public class ModBlocks {
     public static final Block BOOK_TNT = registerBlock("book_tnt",
             new BookTNT(Block.Settings.copy(Blocks.TNT)));
 
+    public static final Block RANDOMISE_TNT = registerBlock("randomise_tnt",
+            new RandomiseTNT(Block.Settings.copy(Blocks.TNT)));
+
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
         return Registry.register(Registries.BLOCK, new Identifier(WeirdTNT.MOD_ID, name), block);
