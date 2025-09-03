@@ -13,5 +13,6 @@
   "block.weirdtnt.restore_tnt": "Restore TNT",
   "block.weirdtnt.book_tnt": "Book TNT",
   "block.weirdtnt.randomise_tnt": "Randomise TNT",
+  "block.weirdtnt.lightning_tnt": "Lightning TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

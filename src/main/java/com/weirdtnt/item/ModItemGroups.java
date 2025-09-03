@@ -29,6 +29,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.RESTORE_TNT);
                 entries.add(ModBlocks.BOOK_TNT);
                 entries.add(ModBlocks.RANDOMISE_TNT);
+                entries.add(ModBlocks.LIGHTNING_TNT);
             }).build());
 
     public static void registerItemGroups(){

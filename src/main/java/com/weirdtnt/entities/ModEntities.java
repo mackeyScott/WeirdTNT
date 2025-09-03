@@ -149,6 +149,17 @@ public class ModEntities {
                     .build()
     );
 
+    public static final EntityType<LightningTntEntity> LIGHTNING_ENTITY = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(WeirdTNT.MOD_ID, "lightning_entity"),
+            FabricEntityTypeBuilder.<LightningTntEntity>create(SpawnGroup.MISC, LightningTntEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+                    .trackRangeBlocks(10)
+                    .trackedUpdateRate(10)
+                    .build()
+    );
+
+
 
     public static void registerModEntities() {
         WeirdTNT.LOGGER.info("Registering Mod Entities for " + WeirdTNT.MOD_ID);
