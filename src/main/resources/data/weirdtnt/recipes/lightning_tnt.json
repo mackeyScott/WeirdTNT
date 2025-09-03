@@ -2,19 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "#G#",
-    "G G",
+    "GLG",
     "#G#"
   ],
   "key": {
     "#": {
-      "item": "minecraft:bookshelf"
+      "item": "minecraft:sand"
     },
     "G": {
       "item": "minecraft:gunpowder"
+    },
+    "L": {
+      "item": "minecraft:lightning_rod"
     }
   },
   "result": {
-    "item": "weirdtnt:book_tnt",
+    "item": "weirdtnt:lightning_tnt",
     "count": 2
   }
 }

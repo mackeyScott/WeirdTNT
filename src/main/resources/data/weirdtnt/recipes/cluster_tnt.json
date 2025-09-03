@@ -7,14 +7,14 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:bookshelf"
+      "item": "minecraft:tnt"
     },
     "G": {
       "item": "minecraft:gunpowder"
     }
   },
   "result": {
-    "item": "weirdtnt:book_tnt",
+    "item": "weirdtnt:cluster_tnt",
     "count": 2
   }
 }

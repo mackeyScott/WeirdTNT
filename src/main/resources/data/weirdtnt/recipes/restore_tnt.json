@@ -2,19 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "#G#",
-    "G G",
+    "GOG",
     "#G#"
   ],
   "key": {
     "#": {
-      "item": "minecraft:bookshelf"
+      "item": "minecraft:sand"
     },
     "G": {
       "item": "minecraft:gunpowder"
+    },
+    "O": {
+      "item": "minecraft:golden_apple"
     }
   },
   "result": {
-    "item": "weirdtnt:book_tnt",
+    "item": "weirdtnt:restore_tnt",
     "count": 2
   }
 }
