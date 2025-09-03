@@ -24,13 +24,13 @@ public class ClusterTntEntity extends TntEntity {
     public void tick() {
         super.tick();
 
-        if (!this.getWorld().isClient && this.getFuse() == 1) { // just before explosion
+        if (!this.getWorld().isClient && this.getFuse() == 1) {
             explodeCluster();
             getWorld().playSound(null, this.getBlockPos(),
                     SoundEvents.ENTITY_GENERIC_EXPLODE,
                     SoundCategory.BLOCKS,
                     4.0F, 1.0F);
-            this.remove(RemovalReason.DISCARDED); // remove TNT manually
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 
@@ -45,7 +45,6 @@ public class ClusterTntEntity extends TntEntity {
                     int distance = target.getManhattanDistance(center);
 
                     if (distance <= radius) {
-                        // Create primed TNT
                         TntEntity tnt = new TntEntity(
                                 this.getWorld(),
                                 target.getX() + 0.5,
@@ -54,8 +53,6 @@ public class ClusterTntEntity extends TntEntity {
                                 null
                         );
 
-                        // Fuse logic: closer TNT explodes sooner
-                        // Base fuse = 40 ticks (2s), add 10 ticks per distance unit
                         int fuse = 40 + (distance * 10);
                         tnt.setFuse(fuse);
 
@@ -65,7 +62,6 @@ public class ClusterTntEntity extends TntEntity {
             }
         }
 
-        // Play initial explosion sound at the center
         this.getWorld().playSound(
                 null,
                 center,

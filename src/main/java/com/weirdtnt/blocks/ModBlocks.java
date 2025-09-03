@@ -44,6 +44,9 @@ public class ModBlocks {
     public static final Block CLUSTER_TNT = registerBlock("cluster_tnt",
             new ClusterTNT(Block.Settings.copy(Blocks.TNT)));
 
+    public static final Block RESTORE_TNT = registerBlock("restore_tnt",
+            new RestoreTNT(Block.Settings.copy(Blocks.TNT)));
+
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
         return Registry.register(Registries.BLOCK, new Identifier(WeirdTNT.MOD_ID, name), block);

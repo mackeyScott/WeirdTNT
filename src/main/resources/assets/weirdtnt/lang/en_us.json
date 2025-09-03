@@ -10,5 +10,6 @@
   "block.weirdtnt.gravity_tnt": "GraviTNT",
   "block.weirdtnt.rainbow_tnt": "Rainbow TNT",
   "block.weirdtnt.cluster_tnt": "Cluster TNT",
+  "block.weirdtnt.restore_tnt": "Restore TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }
