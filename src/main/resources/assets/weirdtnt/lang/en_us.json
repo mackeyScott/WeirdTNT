@@ -14,5 +14,7 @@
   "block.weirdtnt.book_tnt": "Book TNT",
   "block.weirdtnt.randomise_tnt": "Randomise TNT",
   "block.weirdtnt.lightning_tnt": "Lightning TNT",
+  "block.weirdtnt.repulsor_tnt": "Repulsor TNT",
+  "block.weirdtnt.attractor_tnt": "Attractor TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

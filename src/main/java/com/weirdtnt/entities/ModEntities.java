@@ -159,6 +159,26 @@ public class ModEntities {
                     .build()
     );
 
+    public static final EntityType<RepulsorTntEntity> REPULSOR_ENTITY = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(WeirdTNT.MOD_ID, "repulsor_entity"),
+            FabricEntityTypeBuilder.<RepulsorTntEntity>create(SpawnGroup.MISC, RepulsorTntEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+                    .trackRangeBlocks(10)
+                    .trackedUpdateRate(10)
+                    .build()
+    );
+
+    public static final EntityType<AttractorTntEntity> ATTRACTOR_ENTITY = Registry.register(
+            Registries.ENTITY_TYPE,
+            new Identifier(WeirdTNT.MOD_ID, "attractor_entity"),
+            FabricEntityTypeBuilder.<AttractorTntEntity>create(SpawnGroup.MISC, AttractorTntEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+                    .trackRangeBlocks(10)
+                    .trackedUpdateRate(10)
+                    .build()
+    );
+
 
 
     public static void registerModEntities() {

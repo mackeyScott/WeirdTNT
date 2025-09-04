@@ -56,6 +56,12 @@ public class ModBlocks {
     public static final Block LIGHTNING_TNT = registerBlock("lightning_tnt",
             new LightningTNT(Block.Settings.copy(Blocks.TNT)));
 
+    public static final Block REPULSOR_TNT = registerBlock("repulsor_tnt",
+            new RepulsorTNT(Block.Settings.copy(Blocks.TNT)));
+
+    public static final Block ATTRACTOR_TNT = registerBlock("attractor_tnt",
+            new AttractorTNT(Block.Settings.copy(Blocks.TNT)));
+
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
         return Registry.register(Registries.BLOCK, new Identifier(WeirdTNT.MOD_ID, name), block);

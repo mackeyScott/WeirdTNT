@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "GPG",
+    "#G#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "item": "weirdtnt:repulsor_tnt",
+    "count": 2
+  }
+}
