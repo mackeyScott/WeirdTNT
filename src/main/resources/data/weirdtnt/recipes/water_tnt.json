@@ -6,9 +6,9 @@
     "#G#"
   ],
   "key": {
-    "#": "minecraft:sand",
-    "G": "minecraft:gunpowder",
-    "W": "minecraft:water_bucket"
+    "#": { "item":"minecraft:sand"},
+    "G": { "item":"minecraft:gunpowder"},
+    "W": { "item":"minecraft:water_bucket"}
   },
   "result": {
     "item": "weirdtnt:water_tnt",

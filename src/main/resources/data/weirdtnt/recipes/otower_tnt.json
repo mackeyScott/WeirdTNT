@@ -6,8 +6,8 @@
     "#G#"
   ],
   "key": {
-    "#": "minecraft:obsidian",
-    "G": "minecraft:gunpowder"
+    "#": { "item":"minecraft:obsidian"},
+    "G": { "item":"minecraft:gunpowder"}
   },
   "result": {
     "item": "weirdtnt:bnt",

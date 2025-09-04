@@ -6,9 +6,9 @@
     "#G#"
   ],
   "key": {
-    "#": "minecraft:sand",
-    "G": "minecraft:gunpowder",
-    "H": "minecraft:honeycomb"
+    "#": { "item":"minecraft:sand"},
+    "G": { "item":"minecraft:gunpowder"},
+    "H": { "item":"minecraft:honeycomb"}
   },
   "result": {
     "item": "weirdtnt:bnt",

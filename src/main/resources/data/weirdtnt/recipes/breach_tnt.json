@@ -6,9 +6,9 @@
     "#G#"
   ],
   "key": {
-    "#": "minecraft:sand",
-    "G": "minecraft:gunpowder",
-    "P": "minecraft:pointed_dripstone"
+    "#": { "item":"minecraft:sand"},
+    "G": { "item":"minecraft:gunpowder"},
+    "P": { "item":"minecraft:pointed_dripstone"}
   },
   "result": {
     "item": "weirdtnt:breach_tnt",

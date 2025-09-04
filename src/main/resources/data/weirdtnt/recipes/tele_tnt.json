@@ -6,9 +6,9 @@
     "#G#"
   ],
   "key": {
-    "#": "minecraft:sand",
-    "G": "minecraft:gunpowder",
-    "E": "minecraft:ender_pearl"
+    "#": { "item":"minecraft:sand"},
+    "G": { "item":"minecraft:gunpowder"},
+    "E": { "item":"minecraft:ender_pearl"}
   },
   "result": {
     "item": "weirdtnt:tele_tnt",
