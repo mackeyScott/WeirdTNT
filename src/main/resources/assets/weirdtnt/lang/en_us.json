@@ -16,5 +16,6 @@
   "block.weirdtnt.lightning_tnt": "Lightning TNT",
   "block.weirdtnt.repulsor_tnt": "Repulsor TNT",
   "block.weirdtnt.attractor_tnt": "Attractor TNT",
+  "block.weirdtnt.blink_tnt": "Blink TNT",
   "itemgroup.igwtnt": "Weird TNT"
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#G#",
+    "GKG",
+    "#G#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sand"
+    },
+    "G": {
+      "item": "minecraft:gunpowder"
+    },
+    "K": {
+      "item": "minecraft:ghast_tear"
+    }
+  },
+  "result": {
+    "item": "weirdtnt:chunk_tnt",
+    "count": 3
+  }
+}

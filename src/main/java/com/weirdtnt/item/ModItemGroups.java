@@ -32,6 +32,7 @@ public class ModItemGroups {
                 entries.add(ModBlocks.LIGHTNING_TNT);
                 entries.add(ModBlocks.REPULSOR_TNT);
                 entries.add(ModBlocks.ATTRACTOR_TNT);
+                entries.add(ModBlocks.BLINK_TNT);
             }).build());
 
     public static void registerItemGroups(){
