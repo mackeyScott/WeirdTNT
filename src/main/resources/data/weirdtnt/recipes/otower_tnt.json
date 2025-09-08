@@ -10,7 +10,7 @@
     "G": { "item":"minecraft:gunpowder"}
   },
   "result": {
-    "item": "weirdtnt:bnt",
+    "item": "weirdtnt:otower_tnt",
     "count": 2
   }
 }
