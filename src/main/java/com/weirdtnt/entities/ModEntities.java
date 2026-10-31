@@ -1,21 +1,13 @@
 package com.weirdtnt.entities;
 
 import com.weirdtnt.WeirdTNT;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-
-import javax.swing.text.html.parser.Entity;
-
-import static net.minecraft.registry.Registries.ENTITY_TYPE;
 
 public class ModEntities {
 

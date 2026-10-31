@@ -1,8 +1,5 @@
 package com.weirdtnt.entities;
 
-import com.weirdtnt.blocks.BNT;
-import net.minecraft.block.Block;
-import net.minecraft.block.TntBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;

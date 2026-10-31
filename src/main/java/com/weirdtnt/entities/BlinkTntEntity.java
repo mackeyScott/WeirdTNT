@@ -1,48 +1,34 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.StructureTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.Structure;
-import net.minecraft.world.gen.structure.StructureKeys;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class BlinkTntEntity extends TntEntity {
-    private TagKey<Structure>[] ALLOWED_STRUCTURES;
+    private List<TagKey<Structure>> allowedStructures;
 
     public BlinkTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80);
-        this.ALLOWED_STRUCTURES = new TagKey[]{
+        this.allowedStructures = List.of(
                 StructureTags.VILLAGE,
                 StructureTags.MINESHAFT,
                 StructureTags.OCEAN_RUIN,
                 StructureTags.RUINED_PORTAL,
                 StructureTags.SHIPWRECK
-        };
+        );
+
     }
 
     public BlinkTntEntity(EntityType<? extends TntEntity> type, World world) {
@@ -74,9 +60,9 @@ public class BlinkTntEntity extends TntEntity {
         double radius = 10.0;
         List<Entity> entities = serverWorld.getOtherEntities(this, this.getBoundingBox().expand(radius));
 
-        int index = random.nextInt(this.ALLOWED_STRUCTURES.length);
+        int index = random.nextInt(this.allowedStructures.size());
 
-        TagKey<Structure> targetTag = this.ALLOWED_STRUCTURES[index];
+        TagKey<Structure> targetTag = this.allowedStructures.get(index);
 
 
         BlockPos structurePos = serverWorld.locateStructure(

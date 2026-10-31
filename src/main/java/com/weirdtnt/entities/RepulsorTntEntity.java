@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -44,7 +43,6 @@ public class RepulsorTntEntity extends TntEntity {
 
     private void repulseEntities() {
         World world = this.getWorld();
-        BlockPos pos = this.getBlockPos();
 
         double radius = 10.0;
         double strength = 100;

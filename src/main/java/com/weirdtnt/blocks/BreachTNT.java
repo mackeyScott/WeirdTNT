@@ -1,7 +1,6 @@
 package com.weirdtnt.blocks;
 
 import com.weirdtnt.entities.BreachTntEntity;
-import com.weirdtnt.entities.ChunkTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.TntBlock;

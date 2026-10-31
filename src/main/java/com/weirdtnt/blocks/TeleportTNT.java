@@ -1,6 +1,5 @@
 package com.weirdtnt.blocks;
 
-import com.weirdtnt.entities.LavaTntEntity;
 import com.weirdtnt.entities.TeleportTntEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
