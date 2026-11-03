@@ -1,53 +1,53 @@
 package com.weirdtnt.blocks;
 
 import com.weirdtnt.entities.GravityTntEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.TntBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.TntBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class GravityTNT extends TntBlock {
-    public GravityTNT(Settings settings) {
+    public GravityTNT(Properties settings) {
         super(settings);
     }
 
     @Override
-    public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block,
+    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block,
                                BlockPos fromPos, boolean notify) {
-        if (world.isReceivingRedstonePower(pos)) {
+        if (world.hasNeighborSignal(pos)) {
             ignite(world, pos, null);
             world.removeBlock(pos, false);
         }
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos,
-                              PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos,
+                              Player player, InteractionHand hand, BlockHitResult hit) {
         ignite(world, pos, player);
         world.removeBlock(pos, false);
-        return ActionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
-    private void ignite(World world, BlockPos pos, @Nullable LivingEntity igniter) {
-        if (!world.isClient) {
+    private void ignite(Level world, BlockPos pos, @Nullable LivingEntity igniter) {
+        if (!world.isClientSide) {
             GravityTntEntity entity = new GravityTntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),
                     pos.getZ() + 0.5,
                     igniter);
 
-            world.spawnEntity(entity);
-            world.playSound(null, pos, SoundEvents.ENTITY_TNT_PRIMED,
-                    SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.addFreshEntity(entity);
+            world.playSound(null, pos, SoundEvents.TNT_PRIMED,
+                    SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 }

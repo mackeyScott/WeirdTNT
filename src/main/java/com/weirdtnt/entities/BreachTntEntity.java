@@ -1,47 +1,47 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class BreachTntEntity extends TntEntity {
-    public BreachTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+public class BreachTntEntity extends PrimedTnt {
+    public BreachTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(5);
 
     }
 
-    public BreachTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public BreachTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
     @Override
-    protected void checkBlockCollision() {
+    protected void checkInsideBlocks() {
         // do nothing → ignore collisions
     }
 
     @Override
     public void tick() {
         // Fuse countdown
-        if (!this.getWorld().isClient) {
+        if (!this.level().isClientSide) {
             int fuse = this.getFuse();
             if (fuse > 0){
                 // Loop through the 10 blocks beneath
-                BlockPos tntPos = this.getBlockPos();
+                BlockPos tntPos = this.blockPosition();
                 for (int i = 1; i <= 2; i++) {
-                    BlockPos posBelow = tntPos.down(i);
-                    BlockState state = this.getWorld().getBlockState(posBelow);
-                    if (!state.isAir() && !state.isOf(Blocks.BEDROCK)) {
-                        this.getWorld().removeBlock(posBelow, false);
-                        this.setPos(tntPos.getX(), tntPos.getY()-2, tntPos.getZ());
+                    BlockPos posBelow = tntPos.below(i);
+                    BlockState state = this.level().getBlockState(posBelow);
+                    if (!state.isAir() && !state.is(Blocks.BEDROCK)) {
+                        this.level().removeBlock(posBelow, false);
+                        this.setPosRaw(tntPos.getX(), tntPos.getY()-2, tntPos.getZ());
                     }
                 }
 
@@ -50,10 +50,10 @@ public class BreachTntEntity extends TntEntity {
             }
 
             if (fuse <= 0) {
-                this.getWorld().createExplosion(this, getX(), getY(), getZ(), 4.0f, World.ExplosionSourceType.TNT);
-                getWorld().playSound(null, this.getBlockPos(),
-                        SoundEvents.ENTITY_GENERIC_EXPLODE,
-                        SoundCategory.BLOCKS,
+                this.level().explode(this, getX(), getY(), getZ(), 4.0f, Level.ExplosionInteraction.TNT);
+                level().playSound(null, this.blockPosition(),
+                        SoundEvents.GENERIC_EXPLODE,
+                        SoundSource.BLOCKS,
                         4.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);
                 return;
@@ -61,7 +61,7 @@ public class BreachTntEntity extends TntEntity {
         }
 
         // Particles
-        this.getWorld().addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5, getZ(), 0, 0, 0);
+        this.level().addParticle(ParticleTypes.SMOKE, getX(), getY() + 0.5, getZ(), 0, 0, 0);
     }
 
 

@@ -1,31 +1,31 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
-public class GravityTntEntity extends TntEntity {
+public class GravityTntEntity extends PrimedTnt {
 
-    public GravityTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public GravityTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80); // optional fuse
     }
 
-    public GravityTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public GravityTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -33,7 +33,7 @@ public class GravityTntEntity extends TntEntity {
     public void tick() {
         super.tick();
 
-        if (!getWorld().isClient && this.getFuse() <= 1) {
+        if (!level().isClientSide && this.getFuse() <= 1) {
             applyLevitation();
             this.remove(RemovalReason.DISCARDED);
         }
@@ -41,32 +41,32 @@ public class GravityTntEntity extends TntEntity {
 
     private void applyLevitation() {
         double radius = 6.0;
-        BlockPos origin = this.getBlockPos();
+        BlockPos origin = this.blockPosition();
 
-        getWorld().playSound(null, origin,
-                SoundEvents.ENTITY_GENERIC_EXPLODE,
-                SoundCategory.BLOCKS,
+        level().playSound(null, origin,
+                SoundEvents.GENERIC_EXPLODE,
+                SoundSource.BLOCKS,
                 4.0F, 1.0F);
 
         // Get all entities in radius
-        List<Entity> entities = getWorld().getOtherEntities(null, new Box(
-                origin.add((int) -radius, (int) -radius, (int) -radius),
-                origin.add((int) radius, (int) radius, (int) radius)
+        List<Entity> entities = level().getEntities(null, new AABB(
+                origin.offset((int) -radius, (int) -radius, (int) -radius),
+                origin.offset((int) radius, (int) radius, (int) radius)
         ));
 
         for (Entity entity : entities) {
-            if (entity instanceof LivingEntity living && !(entity instanceof TntEntity)) {
+            if (entity instanceof LivingEntity living && !(entity instanceof PrimedTnt)) {
                 // Apply levitation
-                living.addStatusEffect(new StatusEffectInstance(
-                        StatusEffects.LEVITATION,
+                living.addEffect(new MobEffectInstance(
+                        MobEffects.LEVITATION,
                         50,
                         20,
                         false, // show particles
                         false  // show icon
                 ));
                 //Apply Slow Falling
-                living.addStatusEffect(new StatusEffectInstance(
-                        StatusEffects.SLOW_FALLING,
+                living.addEffect(new MobEffectInstance(
+                        MobEffects.SLOW_FALLING,
                         300,
                         20,
                         false, // show particles
@@ -76,9 +76,9 @@ public class GravityTntEntity extends TntEntity {
         }
 
         // Optional particle explosion effect
-        if (getWorld() instanceof ServerWorld serverWorld) {
-            Random random = serverWorld.random;
-            serverWorld.spawnParticles(ParticleTypes.CLOUD, getX(), getY(), getZ(),
+        if (level() instanceof ServerLevel serverWorld) {
+            RandomSource random = serverWorld.random;
+            serverWorld.sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ(),
                     50, 1 + random.nextDouble(), 1 + random.nextDouble(), 1 + random.nextDouble(), 0.1);
         }
     }

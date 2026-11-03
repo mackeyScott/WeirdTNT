@@ -1,25 +1,25 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class RandomiseTntEntity extends TntEntity {
+public class RandomiseTntEntity extends PrimedTnt {
     private List<Block> NOT_ALLOWED_BLOCKS = new ArrayList<>();
 
-    public RandomiseTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public RandomiseTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80);
         this.NOT_ALLOWED_BLOCKS.add(Blocks.AIR);
@@ -58,7 +58,7 @@ public class RandomiseTntEntity extends TntEntity {
 
     }
 
-    public RandomiseTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public RandomiseTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -69,33 +69,33 @@ public class RandomiseTntEntity extends TntEntity {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.getWorld().isClient) {
+        if (!this.level().isClientSide) {
             if (fuse <= 0) {
-                explodeAndRandomize(this.getWorld(), this.getBlockPos(), 15, new Random());
+                explodeAndRandomize(this.level(), this.blockPosition(), 15, new Random());
                 this.discard();
                 return;
             }
         }
 
-        this.getWorld().addParticle(
+        this.level().addParticle(
                 ParticleTypes.SMOKE,
                 this.getX(), this.getY() + 0.5, this.getZ(),
                 0.0, 0.0, 0.0
         );
 
-        this.age++;
+        this.tickCount++;
     }
 
-    private void explodeAndRandomize(World world, BlockPos center, int radius, Random random) {
+    private void explodeAndRandomize(Level world, BlockPos center, int radius, Random random) {
         List<BlockPos> positions = new ArrayList<>();
         List<BlockState> states = new ArrayList<>();
 
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
-                    BlockPos pos = center.add(x, y, z);
+                    BlockPos pos = center.offset(x, y, z);
 
-                    if (pos.isWithinDistance(center, radius)) {
+                    if (pos.closerThan(center, radius)) {
                         BlockState state = world.getBlockState(pos);
 
                         if (!NOT_ALLOWED_BLOCKS.contains(state.getBlock())) {
@@ -110,7 +110,7 @@ public class RandomiseTntEntity extends TntEntity {
         Collections.shuffle(states, random);
 
         for (int i = 0; i < positions.size(); i++) {
-            world.setBlockState(positions.get(i), states.get(i), 3);
+            world.setBlock(positions.get(i), states.get(i), 3);
         }
     }
 

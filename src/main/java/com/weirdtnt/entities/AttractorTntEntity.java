@@ -1,24 +1,24 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public class AttractorTntEntity extends TntEntity {
-    public AttractorTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+public class AttractorTntEntity extends PrimedTnt {
+    public AttractorTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80);
     }
 
-    public AttractorTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public AttractorTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -31,7 +31,7 @@ public class AttractorTntEntity extends TntEntity {
             this.discard();
             explode();
         }
-        this.getWorld().addParticle(
+        this.level().addParticle(
                 ParticleTypes.SMOKE,
                 this.getX(), this.getY() + 0.5, this.getZ(),
                 0.0, 0.0, 0.0
@@ -39,30 +39,30 @@ public class AttractorTntEntity extends TntEntity {
     }
 
     private void pullEntities() {
-        World world = this.getWorld();
-        BlockPos pos = this.getBlockPos();
-        Vec3d epicenter = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        Level world = this.level();
+        BlockPos pos = this.blockPosition();
+        Vec3 epicenter = new Vec3(pos.getX(), pos.getY(), pos.getZ());
 
         double radius = 10.0;
         double strength = 0.15; // tweak for how fast entities are pulled
 
-        List<Entity> entities = world.getOtherEntities(this, this.getBoundingBox().expand(radius));
+        List<Entity> entities = world.getEntities(this, this.getBoundingBox().inflate(radius));
         for (Entity entity : entities) {
             if (entity == this || !entity.isAlive()) continue;
 
-            Vec3d toCenter = epicenter.subtract(entity.getPos());
+            Vec3 toCenter = epicenter.subtract(entity.position());
             double distance = toCenter.length();
             if (distance > radius || distance < 0.01) continue;
 
-            Vec3d pull = toCenter.normalize().multiply(strength);
-            entity.addVelocity(pull.x, pull.y, pull.z);
-            entity.velocityModified = true;
+            Vec3 pull = toCenter.normalize().scale(strength);
+            entity.push(pull.x, pull.y, pull.z);
+            entity.hurtMarked = true;
         }
     }
 
     private void explode() {
-        World world = this.getWorld();
-        world.createExplosion(this, this.getX(), this.getY(), this.getZ(),
-                0.0f, World.ExplosionSourceType.NONE);
+        Level world = this.level();
+        world.explode(this, this.getX(), this.getY(), this.getZ(),
+                0.0f, Level.ExplosionInteraction.NONE);
     }
 }

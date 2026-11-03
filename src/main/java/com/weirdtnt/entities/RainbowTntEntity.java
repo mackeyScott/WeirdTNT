@@ -1,31 +1,31 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
-public class RainbowTntEntity extends TntEntity {
+public class RainbowTntEntity extends PrimedTnt {
 
-    public RainbowTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public RainbowTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80); // 4 seconds
     }
 
-    public RainbowTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public RainbowTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -33,33 +33,33 @@ public class RainbowTntEntity extends TntEntity {
     public void tick() {
         super.tick();
 
-        if (!getWorld().isClient && this.getFuse() <= 1) {
+        if (!level().isClientSide && this.getFuse() <= 1) {
             explodeRainbow();
-            getWorld().playSound(null, this.getBlockPos(),
-                    SoundEvents.ENTITY_GENERIC_EXPLODE,
-                    SoundCategory.BLOCKS,
+            level().playSound(null, this.blockPosition(),
+                    SoundEvents.GENERIC_EXPLODE,
+                    SoundSource.BLOCKS,
                     4.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
         }
     }
 
     private void explodeRainbow() {
-        BlockPos origin = this.getBlockPos();
-        Random random = this.getWorld().random;
+        BlockPos origin = this.blockPosition();
+        RandomSource random = this.level().random;
         int radius = 5;
 
         // Spawn colorful sheep
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dz = -radius; dz <= radius; dz++) {
                 if (random.nextFloat() < 0.5f) { // 50% chance to spawn sheep
-                    BlockPos pos = origin.add(dx, 1, dz);
+                    BlockPos pos = origin.offset(dx, 1, dz);
 
-                    SheepEntity sheep = EntityType.SHEEP.create(this.getWorld());
+                    Sheep sheep = EntityType.SHEEP.create(this.level());
                     if (sheep != null) {
-                        sheep.refreshPositionAndAngles(pos, 0, 0);
+                        sheep.moveTo(pos, 0, 0);
                         // Random color
                         sheep.setColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
-                        this.getWorld().spawnEntity(sheep);
+                        this.level().addFreshEntity(sheep);
                     }
                 }
             }
@@ -70,19 +70,19 @@ public class RainbowTntEntity extends TntEntity {
             double px = origin.getX() + random.nextDouble() * radius * 2 - radius;
             double py = origin.getY() + random.nextDouble() * 2;
             double pz = origin.getZ() + random.nextDouble() * radius * 2 - radius;
-            this.getWorld().addParticle(ParticleTypes.ENTITY_EFFECT, px, py, pz,
+            this.level().addParticle(ParticleTypes.ENTITY_EFFECT, px, py, pz,
                     1, 0, 0);
         }
 
         // Optional: apply fun potion effects to nearby players
-        List<LivingEntity> entities = this.getWorld().getEntitiesByClass(LivingEntity.class,
-                new Box(origin.add(-radius, -radius, -radius), origin.add(radius, radius, radius)),
+        List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class,
+                new AABB(origin.offset(-radius, -radius, -radius), origin.offset(radius, radius, radius)),
                 e -> e instanceof LivingEntity);
         for (LivingEntity entity : entities) {
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 200, 1)); // 10 sec speed boost
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 200, 2)); // 10 sec jump
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 200, 1)); // 10 sec speed boost
-            entity.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 200, 2)); // 10 sec jump
+            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 200, 1)); // 10 sec speed boost
+            entity.addEffect(new MobEffectInstance(MobEffects.JUMP, 200, 2)); // 10 sec jump
+            entity.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 200, 1)); // 10 sec speed boost
+            entity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 200, 2)); // 10 sec jump
         }
     }
 }

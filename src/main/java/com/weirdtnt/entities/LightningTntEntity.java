@@ -1,23 +1,23 @@
 package com.weirdtnt.entities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-public class LightningTntEntity extends TntEntity {
+public class LightningTntEntity extends PrimedTnt {
 
-    public LightningTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public LightningTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80); // 4 seconds, adjust as needed
     }
 
-    public LightningTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public LightningTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -28,7 +28,7 @@ public class LightningTntEntity extends TntEntity {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.getWorld().isClient) {
+        if (!this.level().isClientSide) {
             if (fuse <= 0) {
                 strikeLightningRipples();
                 this.discard();
@@ -36,23 +36,23 @@ public class LightningTntEntity extends TntEntity {
             }
         }
 
-        this.getWorld().addParticle(
+        this.level().addParticle(
                 ParticleTypes.SMOKE,
                 this.getX(), this.getY() + 0.5, this.getZ(),
                 0.0, 0.0, 0.0
         );
 
-        this.age++;
+        this.tickCount++;
     }
 
     private void strikeLightningRipples() {
-        World world = this.getWorld();
-        BlockPos center = this.getBlockPos();
+        Level world = this.level();
+        BlockPos center = this.blockPosition();
 
         // Explosion sound
         world.playSound(null, center,
-                SoundEvents.ENTITY_GENERIC_EXPLODE,
-                SoundCategory.BLOCKS,
+                SoundEvents.GENERIC_EXPLODE,
+                SoundSource.BLOCKS,
                 4.0F, 1.0F);
 
         int rings = 5;        // number of ripple waves
@@ -69,14 +69,14 @@ public class LightningTntEntity extends TntEntity {
 
                 BlockPos strikePos = new BlockPos((int) offsetX, center.getY(), (int) offsetZ);
 
-                LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(world);
+                LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world);
                 if (lightning != null) {
-                    lightning.refreshPositionAfterTeleport(
+                    lightning.moveTo(
                             strikePos.getX(),
                             strikePos.getY(),
                             strikePos.getZ()
                     );
-                    world.spawnEntity(lightning);
+                    world.addFreshEntity(lightning);
                 }
             }
         }

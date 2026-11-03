@@ -1,25 +1,25 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentLevelEntry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.item.EnchantedBookItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.level.Level;
 
-public class BookTntEntity extends TntEntity {
+public class BookTntEntity extends PrimedTnt {
     private static final String[] MESSAGES = new String[] {
             "Help! I'm a book!",
             "Read me! Read me!",
@@ -73,12 +73,12 @@ public class BookTntEntity extends TntEntity {
     };
 
 
-    public BookTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+    public BookTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80);
     }
 
-    public BookTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public BookTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -89,7 +89,7 @@ public class BookTntEntity extends TntEntity {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.getWorld().isClient) {
+        if (!this.level().isClientSide) {
             if (fuse <= 0) {
                 explodeBooks();
                 this.discard();
@@ -97,18 +97,18 @@ public class BookTntEntity extends TntEntity {
             }
         }
 
-        this.getWorld().addParticle(
+        this.level().addParticle(
                 ParticleTypes.SMOKE,
                 this.getX(), this.getY() + 0.5, this.getZ(),
                 0.0, 0.0, 0.0
         );
 
-        this.age++;
+        this.tickCount++;
     }
 
     private void explodeBooks() {
-        World world = this.getWorld();
-        BlockPos center = this.getBlockPos();
+        Level world = this.level();
+        BlockPos center = this.blockPosition();
         int numBooks = 10; // Number of books to spawn
 
         for (int i = 0; i < numBooks; i++) {
@@ -133,23 +133,23 @@ public class BookTntEntity extends TntEntity {
             double vx = (world.random.nextDouble() - 0.5) * 2.0;
             double vy = world.random.nextDouble() * 2.0 + 0.5;
             double vz = (world.random.nextDouble() - 0.5) * 2.0;
-            book.setVelocity(vx, vy, vz);
+            book.setDeltaMovement(vx, vy, vz);
 
-            world.spawnEntity(book);
+            world.addFreshEntity(book);
 
             // Send funny message to nearby players
             double radius = 50.0;
             double radiusSquared = radius * radius;
-            world.getPlayers().forEach(player -> {
-                if (player.squaredDistanceTo(book) < radiusSquared) {
+            world.players().forEach(player -> {
+                if (player.distanceToSqr(book) < radiusSquared) {
                     String msg = MESSAGES[world.random.nextInt(MESSAGES.length)];
-                    player.sendMessage(Text.literal(msg), false);
+                    player.displayClientMessage(Component.literal(msg), false);
                 }
             });
 
             // Spawn particle effect
-            if (world instanceof ServerWorld serverWorld) {
-                serverWorld.spawnParticles(
+            if (world instanceof ServerLevel serverWorld) {
+                serverWorld.sendParticles(
                         ParticleTypes.ENCHANTED_HIT,
                         book.getX(), book.getY(), book.getZ(),
                         5, 0.1, 0.1, 0.1, 0.0
@@ -158,11 +158,11 @@ public class BookTntEntity extends TntEntity {
         }
     }
 
-    private ItemStack generateRandomEnchantedBook(Random random) {
+    private ItemStack generateRandomEnchantedBook(RandomSource random) {
         ItemStack bookStack = new ItemStack(Items.ENCHANTED_BOOK);
 
         // All enchantments are valid for books
-        List<Enchantment> possibleEnchants = Registries.ENCHANTMENT.stream().toList();
+        List<Enchantment> possibleEnchants = BuiltInRegistries.ENCHANTMENT.stream().toList();
 
         if (possibleEnchants.isEmpty()) return bookStack;
 
@@ -172,7 +172,7 @@ public class BookTntEntity extends TntEntity {
         int level = random.nextInt(randomEnchant.getMaxLevel() - randomEnchant.getMinLevel() + 1)
                 + randomEnchant.getMinLevel();
 
-        EnchantedBookItem.addEnchantment(bookStack, new EnchantmentLevelEntry(randomEnchant, level));
+        EnchantedBookItem.addEnchantment(bookStack, new EnchantmentInstance(randomEnchant, level));
 
         return bookStack;
     }

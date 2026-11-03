@@ -1,74 +1,75 @@
 package com.weirdtnt.blocks;
 import com.weirdtnt.WeirdTNT;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class ModBlocks {
 
     public static final Block WATER_TNT = registerBlock("water_tnt",
-            new WaterTNT(Block.Settings.copy(Blocks.TNT)));
+            new WaterTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block LAVA_TNT = registerBlock("lava_tnt",
-            new LavaTNT(Block.Settings.copy(Blocks.TNT)));
+            new LavaTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block TELE_TNT = registerBlock("tele_tnt",
-            new TeleportTNT(Block.Settings.copy(Blocks.TNT)));
+            new TeleportTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block CHUNK_TNT = registerBlock("chunk_tnt",
-            new ChunkTNT(Block.Settings.copy(Blocks.TNT)));
+            new ChunkTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block BNT = registerBlock("bnt",
-            new BNT(Block.Settings.copy(Blocks.TNT)));
+            new BNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block OTOWER_TNT = registerBlock("otower_tnt",
-            new OTowerTNT(Block.Settings.copy(Blocks.TNT)));
+            new OTowerTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block BREACH_TNT = registerBlock("breach_tnt",
-            new BreachTNT(Block.Settings.copy(Blocks.TNT)));
+            new BreachTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block GRAVITY_TNT = registerBlock("gravity_tnt",
-            new GravityTNT(Block.Settings.copy(Blocks.TNT)));
+            new GravityTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block RAINBOW_TNT = registerBlock("rainbow_tnt",
-            new RainbowTNT(Block.Settings.copy(Blocks.TNT)));
+            new RainbowTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block CLUSTER_TNT = registerBlock("cluster_tnt",
-            new ClusterTNT(Block.Settings.copy(Blocks.TNT)));
+            new ClusterTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block RESTORE_TNT = registerBlock("restore_tnt",
-            new RestoreTNT(Block.Settings.copy(Blocks.TNT)));
+            new RestoreTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block BOOK_TNT = registerBlock("book_tnt",
-            new BookTNT(Block.Settings.copy(Blocks.TNT)));
+            new BookTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block RANDOMISE_TNT = registerBlock("randomise_tnt",
-            new RandomiseTNT(Block.Settings.copy(Blocks.TNT)));
+            new RandomiseTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block LIGHTNING_TNT = registerBlock("lightning_tnt",
-            new LightningTNT(Block.Settings.copy(Blocks.TNT)));
+            new LightningTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block REPULSOR_TNT = registerBlock("repulsor_tnt",
-            new RepulsorTNT(Block.Settings.copy(Blocks.TNT)));
+            new RepulsorTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block ATTRACTOR_TNT = registerBlock("attractor_tnt",
-            new AttractorTNT(Block.Settings.copy(Blocks.TNT)));
+            new AttractorTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     public static final Block BLINK_TNT = registerBlock("blink_tnt",
-            new BlinkTNT(Block.Settings.copy(Blocks.TNT)));
+            new BlinkTNT(BlockBehaviour.Properties.copy(Blocks.TNT)));
 
     private static Block registerBlock(String name, Block block){
         registerBlockItem(name, block);
-        return Registry.register(Registries.BLOCK, new Identifier(WeirdTNT.MOD_ID, name), block);
+        return Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(WeirdTNT.MOD_ID, name), block);
     }
 
     private static Item registerBlockItem(String name, Block block){
-        return Registry.register(Registries.ITEM, new Identifier(WeirdTNT.MOD_ID, name),
+        return Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(WeirdTNT.MOD_ID, name),
                 new BlockItem(block, new FabricItemSettings()));
     }
 

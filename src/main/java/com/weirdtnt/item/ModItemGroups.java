@@ -3,36 +3,36 @@ package com.weirdtnt.item;
 import com.weirdtnt.WeirdTNT;
 import com.weirdtnt.blocks.ModBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 public class ModItemGroups {
-    public static final ItemGroup WT_GROUP = Registry.register(Registries.ITEM_GROUP,
-            new Identifier(WeirdTNT.MOD_ID, "igwtnt"),
-            FabricItemGroup.builder().displayName(Text.translatable("Weird TNT")).icon(()
-                    -> new ItemStack(ModItems.logo)).entries((displayContext, entries) -> {
+    public static final CreativeModeTab WT_GROUP = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+            new ResourceLocation(WeirdTNT.MOD_ID, "igwtnt"),
+            FabricItemGroup.builder().title(Component.translatable("Weird TNT")).icon(()
+                    -> new ItemStack(ModItems.logo)).displayItems((displayContext, entries) -> {
                 //entries.add(ModItems.jay);
-                entries.add(ModBlocks.WATER_TNT);
-                entries.add(ModBlocks.LAVA_TNT);
-                entries.add(ModBlocks.TELE_TNT);
-                entries.add(ModBlocks.CHUNK_TNT);
-                entries.add(ModBlocks.BNT);
-                entries.add(ModBlocks.OTOWER_TNT);
-                entries.add(ModBlocks.BREACH_TNT);
-                entries.add(ModBlocks.GRAVITY_TNT);
-                entries.add(ModBlocks.RAINBOW_TNT);
-                entries.add(ModBlocks.CLUSTER_TNT);
-                entries.add(ModBlocks.RESTORE_TNT);
-                entries.add(ModBlocks.BOOK_TNT);
-                entries.add(ModBlocks.RANDOMISE_TNT);
-                entries.add(ModBlocks.LIGHTNING_TNT);
-                entries.add(ModBlocks.REPULSOR_TNT);
-                entries.add(ModBlocks.ATTRACTOR_TNT);
-                entries.add(ModBlocks.BLINK_TNT);
+                entries.accept(ModBlocks.WATER_TNT);
+                entries.accept(ModBlocks.LAVA_TNT);
+                entries.accept(ModBlocks.TELE_TNT);
+                entries.accept(ModBlocks.CHUNK_TNT);
+                entries.accept(ModBlocks.BNT);
+                entries.accept(ModBlocks.OTOWER_TNT);
+                entries.accept(ModBlocks.BREACH_TNT);
+                entries.accept(ModBlocks.GRAVITY_TNT);
+                entries.accept(ModBlocks.RAINBOW_TNT);
+                entries.accept(ModBlocks.CLUSTER_TNT);
+                entries.accept(ModBlocks.RESTORE_TNT);
+                entries.accept(ModBlocks.BOOK_TNT);
+                entries.accept(ModBlocks.RANDOMISE_TNT);
+                entries.accept(ModBlocks.LIGHTNING_TNT);
+                entries.accept(ModBlocks.REPULSOR_TNT);
+                entries.accept(ModBlocks.ATTRACTOR_TNT);
+                entries.accept(ModBlocks.BLINK_TNT);
             }).build());
 
     public static void registerItemGroups(){

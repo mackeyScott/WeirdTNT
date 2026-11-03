@@ -1,24 +1,24 @@
 package com.weirdtnt.entities;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.Heightmap;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.Nullable;
 
-public class RestoreTntEntity extends TntEntity {
-    public RestoreTntEntity(World world, double x, double y, double z, @Nullable LivingEntity igniter) {
+public class RestoreTntEntity extends PrimedTnt {
+    public RestoreTntEntity(Level world, double x, double y, double z, @Nullable LivingEntity igniter) {
         super(world, x, y, z, igniter);
         this.setFuse(80);
     }
 
-    public RestoreTntEntity(EntityType<? extends TntEntity> type, World world) {
+    public RestoreTntEntity(EntityType<? extends PrimedTnt> type, Level world) {
         super(type, world);
     }
 
@@ -29,7 +29,7 @@ public class RestoreTntEntity extends TntEntity {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.getWorld().isClient) {
+        if (!this.level().isClientSide) {
             if (fuse <= 0) {
                 restoreCluster();
                 this.discard();
@@ -37,25 +37,25 @@ public class RestoreTntEntity extends TntEntity {
             }
         }
 
-        this.getWorld().addParticle(
+        this.level().addParticle(
                 ParticleTypes.SMOKE,
                 this.getX(), this.getY() + 0.5, this.getZ(),
                 0.0, 0.0, 0.0
         );
 
-        this.age++;
+        this.tickCount++;
     }
     private void restoreCluster() {
         int radius = 6;
-        BlockPos center = this.getBlockPos();
-        World world = this.getWorld();
-        Random random = world.getRandom();
+        BlockPos center = this.blockPosition();
+        Level world = this.level();
+        RandomSource random = world.getRandom();
 
         int avgSurface = 0, count = 0;
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dz = -radius; dz <= radius; dz++) {
-                BlockPos sample = center.add(dx, 0, dz);
-                int surfaceY = world.getTopY(Heightmap.Type.WORLD_SURFACE, sample.getX(), sample.getZ());
+                BlockPos sample = center.offset(dx, 0, dz);
+                int surfaceY = world.getHeight(Heightmap.Types.WORLD_SURFACE, sample.getX(), sample.getZ());
                 avgSurface += surfaceY;
                 count++;
             }
@@ -65,11 +65,11 @@ public class RestoreTntEntity extends TntEntity {
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dz = -radius; dz <= radius; dz++) {
                 for (int dy = -radius; dy <= radius; dy++) {
-                    BlockPos target = center.add(dx, dy, dz);
-                    double distance = Math.sqrt(target.getSquaredDistance(center));
+                    BlockPos target = center.offset(dx, dy, dz);
+                    double distance = Math.sqrt(target.distSqr(center));
                     if (distance > radius) continue;
 
-                    int surfaceHeight = world.getTopY(Heightmap.Type.WORLD_SURFACE, target.getX(), target.getZ());
+                    int surfaceHeight = world.getHeight(Heightmap.Types.WORLD_SURFACE, target.getX(), target.getZ());
 
                     double falloff = Math.exp(-(distance * distance) / (2.0 * radius * radius));
                     int blendedHeight = (int) Math.round(avgSurface * falloff + surfaceHeight * (1 - falloff));
@@ -79,20 +79,20 @@ public class RestoreTntEntity extends TntEntity {
 
                         double layerFactor = (double)(blendedHeight - target.getY()) / (radius);
                         if (layerFactor > 0.6) {
-                            state = Blocks.STONE.getDefaultState();
+                            state = Blocks.STONE.defaultBlockState();
                         } else if (layerFactor > 0.3) {
-                            state = Blocks.DIRT.getDefaultState();
+                            state = Blocks.DIRT.defaultBlockState();
                         } else {
-                            state = Blocks.GRASS_BLOCK.getDefaultState();
+                            state = Blocks.GRASS_BLOCK.defaultBlockState();
                         }
 
-                        if (!world.getBlockState(target).isOf(Blocks.BEDROCK)) {
-                            world.setBlockState(target, state, 3);
+                        if (!world.getBlockState(target).is(Blocks.BEDROCK)) {
+                            world.setBlock(target, state, 3);
                         }
 
-                        if (state.isOf(Blocks.GRASS_BLOCK) && world.getBlockState(target.up()).isAir()) {
+                        if (state.is(Blocks.GRASS_BLOCK) && world.getBlockState(target.above()).isAir()) {
                             if (random.nextInt(20) == 0) {
-                                placeDecoration(target.up(), random);
+                                placeDecoration(target.above(), random);
                             }
                         }
                     }
@@ -101,15 +101,15 @@ public class RestoreTntEntity extends TntEntity {
         }
     }
 
-    private void placeDecoration(BlockPos pos, Random random) {
-        World world = this.getWorld();
+    private void placeDecoration(BlockPos pos, RandomSource random) {
+        Level world = this.level();
         int roll = random.nextInt(10);
         if (roll < 6) {
-            world.setBlockState(pos, Blocks.TALL_GRASS.getDefaultState(), 3);
+            world.setBlock(pos, Blocks.TALL_GRASS.defaultBlockState(), 3);
         } else if (roll < 8) {
-            world.setBlockState(pos, Blocks.DANDELION.getDefaultState(), 3);
+            world.setBlock(pos, Blocks.DANDELION.defaultBlockState(), 3);
         } else if (roll == 8) {
-            world.setBlockState(pos, Blocks.OAK_SAPLING.getDefaultState(), 3);
+            world.setBlock(pos, Blocks.OAK_SAPLING.defaultBlockState(), 3);
         }
     }
 
