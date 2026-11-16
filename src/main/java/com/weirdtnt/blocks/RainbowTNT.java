@@ -14,31 +14,41 @@ import net.minecraft.world.level.block.TntBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.redstone.Orientation;
+import net.minecraft.world.item.ItemStack;  
 
 public class RainbowTNT extends TntBlock {
     public RainbowTNT(Properties settings) {
         super(settings);
     }
 
-    @Override
-    public void neighborChanged(BlockState state, Level world, BlockPos pos, Block block,
-                               BlockPos fromPos, boolean notify) {
+   @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston) {
+        Level world = level;
         if (world.hasNeighborSignal(pos)) {
             ignite(world, pos, null);
             world.removeBlock(pos, false);
         }
     }
+@Override
+protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos,
+                                           Player player, BlockHitResult hit) {
+    ignite(world, pos, player);
+    world.removeBlock(pos, false);
+    return InteractionResult.SUCCESS;
+}
 
-    @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos,
-                              Player player, InteractionHand hand, BlockHitResult hit) {
-        ignite(world, pos, player);
-        world.removeBlock(pos, false);
-        return InteractionResult.SUCCESS;
-    }
+@Override
+protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level world,
+                                      BlockPos pos, Player player, InteractionHand hand,
+                                      BlockHitResult hit) {
+    ignite(world, pos, player);
+    world.removeBlock(pos, false);
+    return InteractionResult.SUCCESS;
+}
 
     private void ignite(Level world, BlockPos pos, @Nullable LivingEntity igniter) {
-        if (!world.isClientSide) {
+        if (!world.isClientSide()) {
             RainbowTntEntity entity = new RainbowTntEntity(world,
                     pos.getX() + 0.5,
                     pos.getY(),

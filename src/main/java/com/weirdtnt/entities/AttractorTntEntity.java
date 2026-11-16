@@ -5,6 +5,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,11 +27,17 @@ public class AttractorTntEntity extends PrimedTnt {
     @Override
     public void tick() {
         if (!this.isAlive()) return;
-        pullEntities();
+
+        if (!this.level().isClientSide()) {
+            pullEntities();
+        }
+
         this.setFuse(this.getFuse() - 1);
         if (this.getFuse() <= 0) {
             this.discard();
-            explode();
+            if (!this.level().isClientSide()) {
+                explode();
+            }
         }
         this.level().addParticle(
                 ParticleTypes.SMOKE,
@@ -56,7 +64,16 @@ public class AttractorTntEntity extends PrimedTnt {
 
             Vec3 pull = toCenter.normalize().scale(strength);
             entity.push(pull.x, pull.y, pull.z);
-            entity.hurtMarked = true;
+            sendVelocity(entity);
+        }
+    }
+
+    // In 26.3, needsSync only updates OTHER players watching the entity.
+    // A pushed player also needs their own motion packet, sent immediately.
+    private static void sendVelocity(Entity entity) {
+        entity.needsSync = true;
+        if (entity instanceof ServerPlayer player) {
+            player.connection.send(new ClientboundSetEntityMotionPacket(player));
         }
     }
 

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -12,11 +12,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.Level;
 
 public class BookTntEntity extends PrimedTnt {
@@ -89,7 +87,7 @@ public class BookTntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (fuse <= 0) {
                 explodeBooks();
                 this.discard();
@@ -115,8 +113,8 @@ public class BookTntEntity extends PrimedTnt {
             ItemStack bookStack;
 
             // 1% chance to spawn a random enchanted book
-            if (world.random.nextDouble() < 0.01) {
-                bookStack = generateRandomEnchantedBook(world.random);
+            if (world.getRandom().nextDouble() < 0.01) {
+                bookStack = generateRandomEnchantedBook(world);
             } else {
                 bookStack = new ItemStack(Items.BOOK);
             }
@@ -130,9 +128,9 @@ public class BookTntEntity extends PrimedTnt {
             );
 
             // High velocity for chaos
-            double vx = (world.random.nextDouble() - 0.5) * 2.0;
-            double vy = world.random.nextDouble() * 2.0 + 0.5;
-            double vz = (world.random.nextDouble() - 0.5) * 2.0;
+            double vx = (world.getRandom().nextDouble() - 0.5) * 2.0;
+            double vy = world.getRandom().nextDouble() * 2.0 + 0.5;
+            double vz = (world.getRandom().nextDouble() - 0.5) * 2.0;
             book.setDeltaMovement(vx, vy, vz);
 
             world.addFreshEntity(book);
@@ -142,8 +140,8 @@ public class BookTntEntity extends PrimedTnt {
             double radiusSquared = radius * radius;
             world.players().forEach(player -> {
                 if (player.distanceToSqr(book) < radiusSquared) {
-                    String msg = MESSAGES[world.random.nextInt(MESSAGES.length)];
-                    player.displayClientMessage(Component.literal(msg), false);
+                    String msg = MESSAGES[world.getRandom().nextInt(MESSAGES.length)];
+                    player.sendSystemMessage(Component.literal(msg));
                 }
             });
 
@@ -158,21 +156,25 @@ public class BookTntEntity extends PrimedTnt {
         }
     }
 
-    private ItemStack generateRandomEnchantedBook(RandomSource random) {
+    private ItemStack generateRandomEnchantedBook(Level world) {
+        RandomSource random = world.getRandom();
         ItemStack bookStack = new ItemStack(Items.ENCHANTED_BOOK);
 
         // All enchantments are valid for books
-        List<Enchantment> possibleEnchants = BuiltInRegistries.ENCHANTMENT.stream().toList();
+        List<net.minecraft.core.Holder.Reference<Enchantment>> possibleEnchants = world.registryAccess()
+                .lookupOrThrow(Registries.ENCHANTMENT)
+                .listElements()
+                .toList();
 
         if (possibleEnchants.isEmpty()) return bookStack;
 
-        Enchantment randomEnchant = possibleEnchants.get(random.nextInt(possibleEnchants.size()));
+        net.minecraft.core.Holder<Enchantment> randomEnchant =
+                possibleEnchants.get(random.nextInt(possibleEnchants.size()));
 
-        // Random level between minLevel and maxLevel
-        int level = random.nextInt(randomEnchant.getMaxLevel() - randomEnchant.getMinLevel() + 1)
-                + randomEnchant.getMinLevel();
+        // Enchantment levels now always run from 1 to the max level
+        int enchantLevel = 1 + random.nextInt(randomEnchant.value().getMaxLevel());
 
-        EnchantedBookItem.addEnchantment(bookStack, new EnchantmentInstance(randomEnchant, level));
+        bookStack.enchant(randomEnchant, enchantLevel);
 
         return bookStack;
     }

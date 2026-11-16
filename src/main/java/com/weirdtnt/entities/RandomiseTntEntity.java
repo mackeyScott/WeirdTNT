@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -26,21 +27,6 @@ public class RandomiseTntEntity extends PrimedTnt {
         this.NOT_ALLOWED_BLOCKS.add(Blocks.CHEST);
         this.NOT_ALLOWED_BLOCKS.add(Blocks.BEDROCK);
         this.NOT_ALLOWED_BLOCKS.add(Blocks.ENDER_CHEST);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.BLACK_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.BROWN_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.BLUE_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.CYAN_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.GRAY_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.GREEN_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.LIGHT_BLUE_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.LIGHT_GRAY_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.MAGENTA_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.ORANGE_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.PINK_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.PURPLE_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.RED_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.WHITE_BED);
-        this.NOT_ALLOWED_BLOCKS.add(Blocks.YELLOW_BED);
         this.NOT_ALLOWED_BLOCKS.add(Blocks.GLASS_PANE);
         this.NOT_ALLOWED_BLOCKS.add(Blocks.GLASS);
         this.NOT_ALLOWED_BLOCKS.add(Blocks.DARK_OAK_DOOR);
@@ -69,7 +55,7 @@ public class RandomiseTntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (fuse <= 0) {
                 explodeAndRandomize(this.level(), this.blockPosition(), 15, new Random());
                 this.discard();
@@ -99,6 +85,11 @@ public class RandomiseTntEntity extends PrimedTnt {
                         BlockState state = world.getBlockState(pos);
 
                         if (!NOT_ALLOWED_BLOCKS.contains(state.getBlock())) {
+                            if(state.is(BlockTags.BEDS)) {
+                                // Skip beds
+                                continue;
+                            }
+                            
                             positions.add(pos);
                             states.add(state);
                         }

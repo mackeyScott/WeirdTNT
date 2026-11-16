@@ -2,18 +2,17 @@ package com.weirdtnt.item;
 
 import com.weirdtnt.WeirdTNT;
 import com.weirdtnt.blocks.ModBlocks;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class ModItemGroups {
     public static final CreativeModeTab WT_GROUP = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
-            new ResourceLocation(WeirdTNT.MOD_ID, "igwtnt"),
-            FabricItemGroup.builder().title(Component.translatable("Weird TNT")).icon(()
+            Identifier.fromNamespaceAndPath(WeirdTNT.MOD_ID, "igwtnt"),
+            net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab.builder().title(Component.translatable("Weird TNT")).icon(()
                     -> new ItemStack(ModItems.logo)).displayItems((displayContext, entries) -> {
                 //entries.add(ModItems.jay);
                 entries.accept(ModBlocks.WATER_TNT);
