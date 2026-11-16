@@ -22,10 +22,10 @@ public class ClusterTntEntity extends PrimedTnt {
     public void tick() {
         super.tick();
 
-        if (!this.level().isClientSide && this.getFuse() == 1) {
+        if (!this.level().isClientSide() && this.getFuse() == 1) {
             explodeCluster();
             level().playSound(null, this.blockPosition(),
-                    SoundEvents.GENERIC_EXPLODE,
+                    SoundEvents.GENERIC_EXPLODE.value(),
                     SoundSource.BLOCKS,
                     4.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED);
@@ -63,7 +63,7 @@ public class ClusterTntEntity extends PrimedTnt {
         this.level().playSound(
                 null,
                 center,
-                SoundEvents.GENERIC_EXPLODE,
+                SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.BLOCKS,
                 1.0F,
                 1.0F

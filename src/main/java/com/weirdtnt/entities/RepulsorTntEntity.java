@@ -1,6 +1,9 @@
 package com.weirdtnt.entities;
 
 import java.util.List;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,13 +30,12 @@ public class RepulsorTntEntity extends PrimedTnt {
         if (this.getFuse() <= 0) {
             this.discard();
 
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide()) {
                 this.repulseEntities();
             }
         } else {
-            this.updateInWaterStateAndDoFluidPushing();
             this.level().addParticle(
-                    net.minecraft.core.particles.ParticleTypes.SMOKE,
+                    ParticleTypes.SMOKE,
                     this.getX(), this.getY() + 0.5, this.getZ(),
                     0.0, 0.0, 0.0
             );
@@ -44,7 +46,7 @@ public class RepulsorTntEntity extends PrimedTnt {
         Level world = this.level();
 
         double radius = 10.0;
-        double strength = 100;
+        double strength = 20;
 
         List<Entity> entities = world.getEntities(this, this.getBoundingBox().inflate(radius));
         for (Entity target : entities) {
@@ -56,10 +58,19 @@ public class RepulsorTntEntity extends PrimedTnt {
 
             Vec3 velocity = direction.scale(power);
             target.push(velocity.x, velocity.y + 3, velocity.z);
-            target.hurtMarked = true;
+            sendVelocity(target);
         }
 
         // Play sound + particles but no block damage
         world.explode(this, this.getX(), this.getY(), this.getZ(), 0.0f, Level.ExplosionInteraction.NONE);
+    }
+
+    // In 26.3, needsSync only updates OTHER players watching the entity.
+    // A pushed player also needs their own motion packet, sent immediately.
+    private static void sendVelocity(Entity entity) {
+        entity.needsSync = true;
+        if (entity instanceof ServerPlayer player) {
+            player.connection.send(new ClientboundSetEntityMotionPacket(player));
+        }
     }
 }

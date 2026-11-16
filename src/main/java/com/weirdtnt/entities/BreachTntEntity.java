@@ -24,14 +24,9 @@ public class BreachTntEntity extends PrimedTnt {
     }
 
     @Override
-    protected void checkInsideBlocks() {
-        // do nothing → ignore collisions
-    }
-
-    @Override
     public void tick() {
         // Fuse countdown
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             int fuse = this.getFuse();
             if (fuse > 0){
                 // Loop through the 10 blocks beneath
@@ -52,7 +47,7 @@ public class BreachTntEntity extends PrimedTnt {
             if (fuse <= 0) {
                 this.level().explode(this, getX(), getY(), getZ(), 4.0f, Level.ExplosionInteraction.TNT);
                 level().playSound(null, this.blockPosition(),
-                        SoundEvents.GENERIC_EXPLODE,
+                        SoundEvents.GENERIC_EXPLODE.value(),
                         SoundSource.BLOCKS,
                         4.0F, 1.0F);
                 this.remove(RemovalReason.DISCARDED);

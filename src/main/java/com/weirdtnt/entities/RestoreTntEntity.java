@@ -29,7 +29,7 @@ public class RestoreTntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (fuse <= 0) {
                 restoreCluster();
                 this.discard();

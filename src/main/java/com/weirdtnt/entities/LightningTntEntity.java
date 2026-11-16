@@ -3,7 +3,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -28,7 +30,7 @@ public class LightningTntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (fuse <= 0) {
                 strikeLightningRipples();
                 this.discard();
@@ -51,7 +53,7 @@ public class LightningTntEntity extends PrimedTnt {
 
         // Explosion sound
         world.playSound(null, center,
-                SoundEvents.GENERIC_EXPLODE,
+                SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.BLOCKS,
                 4.0F, 1.0F);
 
@@ -69,13 +71,9 @@ public class LightningTntEntity extends PrimedTnt {
 
                 BlockPos strikePos = new BlockPos((int) offsetX, center.getY(), (int) offsetZ);
 
-                LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(world);
+                LightningBolt lightning = EntityTypes.LIGHTNING_BOLT.create(world, EntitySpawnReason.COMMAND);
                 if (lightning != null) {
-                    lightning.moveTo(
-                            strikePos.getX(),
-                            strikePos.getY(),
-                            strikePos.getZ()
-                    );
+                    lightning.setPos(strikePos.getX() + 0.5, strikePos.getY(), strikePos.getZ() + 0.5);
                     world.addFreshEntity(lightning);
                 }
             }
@@ -83,9 +81,9 @@ public class LightningTntEntity extends PrimedTnt {
 
         // Central electric burst
         for (int i = 0; i < 150; i++) {
-            double px = center.getX() + world.random.nextDouble() * 10 - 5;
-            double py = center.getY() + world.random.nextDouble() * 3;
-            double pz = center.getZ() + world.random.nextDouble() * 10 - 5;
+            double px = center.getX() + world.getRandom().nextDouble() * 10 - 5;
+            double py = center.getY() + world.getRandom().nextDouble() * 3;
+            double pz = center.getZ() + world.getRandom().nextDouble() * 10 - 5;
             world.addParticle(ParticleTypes.ELECTRIC_SPARK, px, py, pz, 0, 0, 0);
         }
     }

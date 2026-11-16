@@ -43,7 +43,7 @@ public class BlinkTntEntity extends PrimedTnt {
 
         super.tick();
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             int fuse = this.getFuse() - 1;
             this.setFuse(fuse);
 
@@ -86,7 +86,7 @@ public class BlinkTntEntity extends PrimedTnt {
 
                     BlockPos below = candidate.below();
                     if (serverWorld.getBlockState(candidate).isAir() &&
-                            serverWorld.getBlockState(below).isSolidRender(serverWorld, below)) {
+                            serverWorld.getBlockState(below).isSolidRender()) {
                         targetPos = candidate;
                         break;
                     }
@@ -126,7 +126,7 @@ public class BlinkTntEntity extends PrimedTnt {
             );
 
             world.players().forEach(player ->
-                    player.displayClientMessage(Component.literal("Teleported to structure type: " + targetTag.location()), false)
+                    player.sendSystemMessage(Component.literal("Teleported to structure type: " + targetTag.location()))
             );
         }
     }

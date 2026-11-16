@@ -29,11 +29,11 @@ public class OTowerTntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (fuse <= 0) {
                 nukeChunk();
                 level().playSound(null, this.blockPosition(),
-                        SoundEvents.GENERIC_EXPLODE,
+                        SoundEvents.GENERIC_EXPLODE.value(),
                         SoundSource.BLOCKS,
                         4.0F, 1.0F);
                 this.discard();
@@ -53,15 +53,15 @@ public class OTowerTntEntity extends PrimedTnt {
     private void nukeChunk() {
         Level world = this.level();
         BlockPos center = this.blockPosition();
-        ChunkPos chunkPos = new ChunkPos(center);
+        ChunkPos chunkPos = new ChunkPos(center.getX() >> 4, center.getZ() >> 4);
 
         int startX = chunkPos.getMinBlockX();
         int startZ = chunkPos.getMinBlockZ();
         int endX = chunkPos.getMaxBlockX();
         int endZ = chunkPos.getMaxBlockZ();
 
-        int minY = world.getMinBuildHeight() + 1;
-        int maxY = world.getMaxBuildHeight();
+        int minY = world.getMinY() + 1;
+        int maxY = world.getMaxY();
 
         for (int x = startX; x <= endX; x++) {
             for (int z = startZ; z <= endZ; z++) {
@@ -73,14 +73,14 @@ public class OTowerTntEntity extends PrimedTnt {
         }
 
         world.playSound(null, center,
-                SoundEvents.GENERIC_EXPLODE,
+                SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.BLOCKS,
                 4.0F, 1.0F);
 
         for (int i = 0; i < 100; i++) {
-            double px = center.getX() + world.random.nextDouble() * 16;
-            double py = minY + world.random.nextDouble() * (maxY - minY);
-            double pz = center.getZ() + world.random.nextDouble() * 16;
+            double px = center.getX() + world.getRandom().nextDouble() * 16;
+            double py = minY + world.getRandom().nextDouble() * (maxY - minY);
+            double pz = center.getZ() + world.getRandom().nextDouble() * 16;
             world.addParticle(ParticleTypes.EXPLOSION, px, py, pz, 0, 0, 0);
         }
     }

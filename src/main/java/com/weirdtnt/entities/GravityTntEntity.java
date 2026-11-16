@@ -17,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class GravityTntEntity extends PrimedTnt {
 
@@ -33,7 +34,7 @@ public class GravityTntEntity extends PrimedTnt {
     public void tick() {
         super.tick();
 
-        if (!level().isClientSide && this.getFuse() <= 1) {
+        if (!level().isClientSide() && this.getFuse() <= 1) {
             applyLevitation();
             this.remove(RemovalReason.DISCARDED);
         }
@@ -44,14 +45,14 @@ public class GravityTntEntity extends PrimedTnt {
         BlockPos origin = this.blockPosition();
 
         level().playSound(null, origin,
-                SoundEvents.GENERIC_EXPLODE,
+                SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.BLOCKS,
                 4.0F, 1.0F);
 
         // Get all entities in radius
         List<Entity> entities = level().getEntities(null, new AABB(
-                origin.offset((int) -radius, (int) -radius, (int) -radius),
-                origin.offset((int) radius, (int) radius, (int) radius)
+                Vec3.atLowerCornerOf(origin.offset((int) -radius, (int) -radius, (int) -radius)),
+                Vec3.atLowerCornerOf(origin.offset((int) radius, (int) radius, (int) radius))
         ));
 
         for (Entity entity : entities) {
@@ -77,7 +78,7 @@ public class GravityTntEntity extends PrimedTnt {
 
         // Optional particle explosion effect
         if (level() instanceof ServerLevel serverWorld) {
-            RandomSource random = serverWorld.random;
+            RandomSource random = serverWorld.getRandom();
             serverWorld.sendParticles(ParticleTypes.CLOUD, getX(), getY(), getZ(),
                     50, 1 + random.nextDouble(), 1 + random.nextDouble(), 1 + random.nextDouble(), 0.1);
         }

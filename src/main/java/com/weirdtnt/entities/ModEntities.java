@@ -1,187 +1,85 @@
 package com.weirdtnt.entities;
 
 import com.weirdtnt.WeirdTNT;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
 public class ModEntities {
 
-    public static final EntityType<WaterTntEntity> WATER_TNT_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "water_tnt_entity"),
-            FabricEntityTypeBuilder.<WaterTntEntity>create(MobCategory.MISC, WaterTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<WaterTntEntity> WATER_TNT_ENTITY =
+            register("water_tnt_entity", WaterTntEntity::new);
 
-    public static final EntityType<LavaTntEntity> LAVA_TNT_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "lava_tnt_entity"),
-            FabricEntityTypeBuilder.<LavaTntEntity>create(MobCategory.MISC, LavaTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<LavaTntEntity> LAVA_TNT_ENTITY =
+            register("lava_tnt_entity", LavaTntEntity::new);
 
-    public static final EntityType<TeleportTntEntity> TELE_TNT_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "tele_tnt_entity"),
-            FabricEntityTypeBuilder.<TeleportTntEntity>create(MobCategory.MISC, TeleportTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<TeleportTntEntity> TELE_TNT_ENTITY =
+            register("tele_tnt_entity", TeleportTntEntity::new);
 
-    public static final EntityType<ChunkTntEntity> CHUNK_TNT_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "chunk_tnt_entity"),
-            FabricEntityTypeBuilder.<ChunkTntEntity>create(MobCategory.MISC, ChunkTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<ChunkTntEntity> CHUNK_TNT_ENTITY =
+            register("chunk_tnt_entity", ChunkTntEntity::new);
 
-    public static final EntityType<BntEntity> BNT_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "bnt_entity"),
-            FabricEntityTypeBuilder.<BntEntity>create(MobCategory.MISC, BntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<BntEntity> BNT_ENTITY =
+            register("bnt_entity", BntEntity::new);
 
-    public static final EntityType<OTowerTntEntity> OTOWER_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "otower_entity"),
-            FabricEntityTypeBuilder.<OTowerTntEntity>create(MobCategory.MISC, OTowerTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<OTowerTntEntity> OTOWER_ENTITY =
+            register("otower_entity", OTowerTntEntity::new);
 
-    public static final EntityType<BreachTntEntity> BREACH_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "breach_entity"),
-            FabricEntityTypeBuilder.<BreachTntEntity>create(MobCategory.MISC, BreachTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<BreachTntEntity> BREACH_ENTITY =
+            register("breach_entity", BreachTntEntity::new);
 
-    public static final EntityType<GravityTntEntity> GRAVITY_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "gravity_entity"),
-            FabricEntityTypeBuilder.<GravityTntEntity>create(MobCategory.MISC, GravityTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<GravityTntEntity> GRAVITY_ENTITY =
+            register("gravity_entity", GravityTntEntity::new);
 
-    public static final EntityType<RainbowTntEntity> RAINBOW_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "rainbow_entity"),
-            FabricEntityTypeBuilder.<RainbowTntEntity>create(MobCategory.MISC, RainbowTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<RainbowTntEntity> RAINBOW_ENTITY =
+            register("rainbow_entity", RainbowTntEntity::new);
 
-    public static final EntityType<ClusterTntEntity> CLUSTER_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "cluster_entity"),
-            FabricEntityTypeBuilder.<ClusterTntEntity>create(MobCategory.MISC, ClusterTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<ClusterTntEntity> CLUSTER_ENTITY =
+            register("cluster_entity", ClusterTntEntity::new);
 
-    public static final EntityType<RestoreTntEntity> RESTORE_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "restore_entity"),
-            FabricEntityTypeBuilder.<RestoreTntEntity>create(MobCategory.MISC, RestoreTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<RestoreTntEntity> RESTORE_ENTITY =
+            register("restore_entity", RestoreTntEntity::new);
 
-    public static final EntityType<BookTntEntity> BOOK_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "book_entity"),
-            FabricEntityTypeBuilder.<BookTntEntity>create(MobCategory.MISC, BookTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<BookTntEntity> BOOK_ENTITY =
+            register("book_entity", BookTntEntity::new);
 
-    public static final EntityType<RandomiseTntEntity> RANDOMISE_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "book_entity"),
-            FabricEntityTypeBuilder.<RandomiseTntEntity>create(MobCategory.MISC, RandomiseTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    // NOTE: the old code registered this under "book_entity" (a duplicate id).
+    // Fixed to its own id.
+    public static final EntityType<RandomiseTntEntity> RANDOMISE_ENTITY =
+            register("randomise_entity", RandomiseTntEntity::new);
 
-    public static final EntityType<LightningTntEntity> LIGHTNING_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "lightning_entity"),
-            FabricEntityTypeBuilder.<LightningTntEntity>create(MobCategory.MISC, LightningTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<LightningTntEntity> LIGHTNING_ENTITY =
+            register("lightning_entity", LightningTntEntity::new);
 
-    public static final EntityType<RepulsorTntEntity> REPULSOR_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "repulsor_entity"),
-            FabricEntityTypeBuilder.<RepulsorTntEntity>create(MobCategory.MISC, RepulsorTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<RepulsorTntEntity> REPULSOR_ENTITY =
+            register("repulsor_entity", RepulsorTntEntity::new);
 
-    public static final EntityType<AttractorTntEntity> ATTRACTOR_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "attractor_entity"),
-            FabricEntityTypeBuilder.<AttractorTntEntity>create(MobCategory.MISC, AttractorTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<AttractorTntEntity> ATTRACTOR_ENTITY =
+            register("attractor_entity", AttractorTntEntity::new);
 
-    public static final EntityType<BlinkTntEntity> BLINK_ENTITY = Registry.register(
-            BuiltInRegistries.ENTITY_TYPE,
-            new ResourceLocation(WeirdTNT.MOD_ID, "blink_entity"),
-            FabricEntityTypeBuilder.<BlinkTntEntity>create(MobCategory.MISC, BlinkTntEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-                    .trackRangeBlocks(10)
-                    .trackedUpdateRate(10)
-                    .build()
-    );
+    public static final EntityType<BlinkTntEntity> BLINK_ENTITY =
+            register("blink_entity", BlinkTntEntity::new);
 
+    private static <T extends Entity> EntityType<T> register(
+            String name, EntityType.EntityFactory<T> factory) {
+        ResourceKey<EntityType<?>> key = ResourceKey.create(
+                Registries.ENTITY_TYPE,
+                Identifier.fromNamespaceAndPath(WeirdTNT.MOD_ID, name));
 
+        return Registry.register(
+                BuiltInRegistries.ENTITY_TYPE,
+                key,
+                EntityType.Builder.of(factory, MobCategory.MISC)
+                        .sized(0.98F, 0.98F)
+                        .clientTrackingRange(10)
+                        .updateInterval(10)
+                        .build(key));
+    }
 
     public static void registerModEntities() {
         WeirdTNT.LOGGER.info("Registering Mod Entities for " + WeirdTNT.MOD_ID);

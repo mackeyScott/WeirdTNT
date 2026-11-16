@@ -23,10 +23,10 @@ public class LavaTntEntity extends PrimedTnt {
     public void tick() {
         super.tick();
 
-        if (!this.level().isClientSide && this.getFuse() == 1) { // just before explosion
+        if (!this.level().isClientSide() && this.getFuse() == 1) { // just before explosion
             explodeLava();
             level().playSound(null, this.blockPosition(),
-                    SoundEvents.GENERIC_EXPLODE,
+                    SoundEvents.GENERIC_EXPLODE.value(),
                     SoundSource.BLOCKS,
                     4.0F, 1.0F);
             this.remove(RemovalReason.DISCARDED); // remove TNT manually
@@ -43,7 +43,7 @@ public class LavaTntEntity extends PrimedTnt {
                     BlockPos target = center.offset(dx, dy, dz);
                     if (target.distManhattan(center) <= radius) {
                         this.level().setBlock(target, Blocks.LAVA.defaultBlockState(), 3);
-                        level().playSound(null, center, SoundEvents.GENERIC_EXPLODE,
+                        level().playSound(null, center, SoundEvents.GENERIC_EXPLODE.value(),
                                 SoundSource.BLOCKS, 1.0F, 1.0F);
                     }
                 }

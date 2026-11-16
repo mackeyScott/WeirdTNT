@@ -5,8 +5,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Level;
 
@@ -29,7 +30,7 @@ public class BntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide && fuse <= 0) {
+        if (!this.level().isClientSide() && fuse <= 0) {
             spawnBees();
             this.discard();
             return;
@@ -50,27 +51,20 @@ public class BntEntity extends PrimedTnt {
         BlockPos center = this.blockPosition();
 
         world.playSound(null, center,
-                SoundEvents.GENERIC_EXPLODE,
+                SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.BLOCKS,
                 4.0F, 1.0F);
         int beeCount = 25;
         for (int i = 0; i < beeCount; i++) {
-            Bee bee = EntityType.BEE.create(world);
+            
+            Mob bee = EntityTypes.BEE.create(world, net.minecraft.world.entity.EntitySpawnReason.COMMAND);
             if (bee != null) {
-                double offsetX = world.random.nextDouble() * 2 - 1;
-                double offsetZ = world.random.nextDouble() * 2 - 1;
+                double offsetX = world.getRandom().nextDouble() * 2 - 1;
+                double offsetZ = world.getRandom().nextDouble() * 2 - 1;
 
-                bee.moveTo(
-                        center.getX() + 0.5 + offsetX,
-                        center.getY() + 0.5,
-                        center.getZ() + 0.5 + offsetZ,
-                        0,
-                        0
-                );
+                bee.setPos(center.getX() + offsetX, center.getY(), center.getZ() + offsetZ);
 
-                bee.setRemainingPersistentAngerTime(3600);
-
-                List<LivingEntity> targets = this.level().getEntitiesOfClass(LivingEntity.class, bee.getBoundingBox().inflate(16), e -> !(e instanceof Bee));
+                List<LivingEntity> targets = this.level().getEntitiesOfClass(LivingEntity.class, bee.getBoundingBox().inflate(16), e -> e.getType() != EntityTypes.BEE);
                 for (LivingEntity target : targets) {
                     bee.setTarget(target);
                 }

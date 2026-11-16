@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +29,7 @@ public class TeleportTntEntity extends PrimedTnt {
         int fuse = this.getFuse() - 1;
         this.setFuse(fuse);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             if (this.tickCount % 5 == 0) {
                 teleportRandomly();
             }
@@ -38,7 +37,7 @@ public class TeleportTntEntity extends PrimedTnt {
             if (fuse <= 0) {
                 explode();
                 level().playSound(null, this.blockPosition(),
-                        SoundEvents.GENERIC_EXPLODE,
+                        SoundEvents.GENERIC_EXPLODE.value(),
                         SoundSource.BLOCKS,
                         4.0F, 1.0F);
                 this.discard();
@@ -68,8 +67,7 @@ public class TeleportTntEntity extends PrimedTnt {
         BlockPos targetPos = BlockPos.containing(newX, newY, newZ);
         BlockState targetState = this.level().getBlockState(targetPos);
         if (targetState.isAir()) {
-            this.moveTo(newX, newY, newZ, this.getYRot(), this.getXRot());
-            this.hasImpulse = true;
+            this.setPos(newX, newY, newZ);
 
             this.level().addParticle(ParticleTypes.PORTAL, newX, newY, newZ, 0, 0, 0);
             this.level().playSound(
@@ -82,18 +80,14 @@ public class TeleportTntEntity extends PrimedTnt {
 
 
     private void explode() {
-        Explosion explosion = new Explosion(
-                this.level(),
-                this,
+        this.level().explode(
+                this,                                   // source entity
                 this.getX(), this.getY(), this.getZ(),
-                4.0f,
-                true,
-                Explosion.BlockInteraction.DESTROY_WITH_DECAY
+                4.0f,                                   // radius
+                true,                                   // fire
+                Level.ExplosionInteraction.TNT          // was DESTROY_WITH_DECAY
         );
-
-        explosion.explode();
-        explosion.finalizeExplosion(true);
-        this.level().playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE,
+        this.level().playSound(null, this.blockPosition(), SoundEvents.GENERIC_EXPLODE.value(),
                 SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 }
